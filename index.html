@@ -1,0 +1,252 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Editor mockup</title>
+<meta charset="utf-8"/>
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Alegreya+Sans:300,300i,700,700i">
+<link rel="stylesheet" href="https://cdn.rawgit.com/necolas/normalize.css/master/normalize.css">
+<link rel="stylesheet" href="lib/milligram/milligram.min.css">
+<link rel="stylesheet" href="lib/choices/choices.min.css">
+<link rel="stylesheet" href="lib/codemirror/lib/codemirror.css">
+<link rel="stylesheet" href="lib/codemirror/addon/hint/show-hint.css">
+<link rel="stylesheet" href="lib/codemirror/addon/lint/lint.css">
+
+<link rel="stylesheet" href="editor.css">
+
+<script src="lib/codemirror/lib/codemirror.js"></script>
+<script src="lib/codemirror/addon/hint/show-hint.js"></script>
+<script src="lib/codemirror/addon/hint/xml-hint.js"></script>
+<script src="lib/codemirror/addon/lint/htmlhint.js"></script>
+<script src="lib/codemirror/addon/lint/lint.js"></script>
+<script src="lib/codemirror/addon/lint/xml-lint.js"></script>
+<script src="lib/codemirror/mode/xml/xml.js"></script>
+
+<script src="lib/choices/choices.min.js"></script>
+
+<script src="lib/hypher/hypher-nojquery.js"></script>
+<script src="lib/hypher/sa.js"></script>
+
+<script src="lib/sanscript.js"></script>
+
+<script src="template.js"></script>
+<script src="editor.js"></script>
+</head>
+
+<body>
+<div id="resources" style="position: absolute; visibility: hidden">
+<object id="tei_header_style" data="xslt/teiheader.xml" type="text/xml"></object>
+<object id="tei_body_style" data="xslt/teibody.xml" type="text/xml"></object>
+<object id="tei_body_style_divs" data="xslt/teibody-divs.xml" type="text/xml"></object>
+</div>
+<div id="topbuttons">
+    <form id="topmenu" class="buttoncontainer justified-row">
+        <span class="menu_left">
+            <select id="scriptselect">
+                <option value="iast">IAST</option>
+                <option value="devanagari">Devanāgarī</option>
+                <option value="malayalam">Malayālam</option>
+                <option value="telugu">Telugu</option>
+            </select>
+            <button type="button" id="storyview"></button>
+        </span>
+        <button type="button" id="saveasbutton">save as...</button>
+    </form>
+</div>
+<div id="teiheader"></div>
+<div id="headereditor">
+    <form>
+        <div>
+            <label for="hd_title">Title:</label>
+            <!--input type="text" id="hd_title" name="title" data-select="titleStmt > title" required pattern=".*\S.*"-->
+            <input type="text" id="hd_title" name="title" data-select="sourceDesc > msDesc > msContents > msItem > title" required pattern=".*\S.*">
+            <label for="hd_title_viaf">VIAF ID:</label>
+            <input type="text" class="viaf" id="hd_title_viaf" name="title VIAF" data-select="sourceDesc > msDesc > msContents > msItem > title" data-attr="ref" data-prefix="https://viaf.org/viaf/">
+            <img class="search viaf_search" src="search_icon.svg" title="search VIAF database">
+        </div>
+        <div>
+            <label for="hd_author">Author:</label>
+            <!--input type="text" id="hd_author" name="author" data-select="titleStmt > author" required pattern=".*\S.*"-->
+            <input type="text" id="hd_author" name="author" data-select="sourceDesc > msDesc > msContents > msItem > author" required pattern=".*\S.*">
+            <label for="hd_author_viaf">VIAF ID:</label>
+            <input type="text" class="viaf" id="hd_author_viaf" name="author VIAF" data-select="sourceDesc > msDesc > msContents > msItem > author" data-attr="ref" data-prefix="https://viaf.org/viaf/">
+            <img class="search viaf_search" src="search_icon.svg" title="search VIAF database">
+        </div>
+        <div>
+            <label for="hd_distributor">Distributor:</label>
+            <input type="text" id="hd_distributor" name="distributor" data-select="publicationStmt > distributor" required pattern=".*\S.*" placeholder="Adheesh Sathaye, University of British Columbia">
+            <label for="hd_distributor_viaf">VIAF ID:</label>
+            <input type="text" class="viaf" id="hd_distributor_viaf" name="distributor VIAF" data-select="publicationStmt > distributor" data-attr="ref" data-prefix="https://viaf.org/viaf/">
+            <img class="search viaf_search" src="search_icon.svg" title="search VIAF database">
+        </div>
+        <div>
+            <label for="hd_repository">Repository:</label>
+            <input type="text" id="hd_repository" name="repository" data-select="sourceDesc > msDesc > msIdentifier > repository" required pattern=".*\S.*" placeholder="name of archive, library, or other institution">
+            <label for="hd_repository_viaf">VIAF ID:</label>
+            <input type="text" class="viaf" id="hd_repository_viaf" name="repository VIAF" data-select="sourceDesc > msDesc > msIdentifier > repository" data-attr="ref" data-prefix="https://viaf.org/viaf/">
+            <img class="search viaf_search" src="search_icon.svg" title="search VIAF database">
+        </div>
+        <div>
+            <label for="hd_geo">Coördinates:</label>
+            <input type="text" id="hd_geo" name="geo" data-select="sourceDesc > msDesc > msIdentifier > placeName > geo" placeholder="[latitude] [longitude]">
+            <label for="hd_settlement">City:</label>
+            <input type="text" id="hd_settlement" name="city" data-select="sourceDesc > msDesc > msIdentifier > placeName > settlement" required pattern=".*\S.*">
+        </div>
+        <div>
+            <label for="hd_region">Region:</label>
+            <input type="text" id="hd_region" data-select="sourceDesc > msDesc > msIdentifier > placeName > region" name="region" placeholder="state, province, or county">
+
+            <label for="hd_country">Country:</label>
+            <input type="text" id="header_country" name="country" data-select="sourceDesc > msDesc > msIdentifier > placeName > country">
+        </div>
+        <div>
+            <label for="hd_idno">Identifier:</label>
+            <input type="text" id="hd_idno" name="identifier" data-select="fileDesc > sourceDesc > msDesc > msIdentifier > idno" required pattern=".*\S.*" placeholder="shelfmark, catalogue number, or call number">
+        </div>
+        <div>
+            <label for="hd_mainLang">Main language:</label>
+            <select class="lang" id="hd_mainLang" name="main language" data-select="sourceDesc > msDesc > msContents > msItem > textLang" data-attr="mainLang" required>
+                <option value="san">Sanskrit</option>
+                <option value="pra">Prakrit</option>
+            </select>
+            <label for="hd_otherLangs">Other languages:</label>
+            <select id="hd_otherLangs" name="other languages" data-select="sourceDesc > msDesc > msContents > msItem > textLang" data-attr="otherLangs" multiple>
+                <option value="guj">Gujarati</option>
+                <option value="hin">Hindi</option>
+                <option value="pra">Prakrit</option>
+                <option value="san">Sanskrit</option>
+            </select>
+        </div>
+        <div>
+            <label for="hd_textLang">Language description:</label>
+            <input type="text" id="hd_textLang" name="language description" data-select="sourceDesc > msDesc > msContents > msItem > textLang" placeholder="e.g., Classical Sanskrit with Hindi annotations">
+        </div>
+        <div>
+            <label for="hd_msContents">Contents:</label>
+            <textarea id="hd_msContents" name="contents" rows="2" data-select="sourceDesc > msDesc > msContents > summary" placeholder="description of the text"></textarea>
+        </div>
+        <!--div>
+            <label for="hd_physDesc">Physical description:</label>
+            <input type="text" id="hd_physDesc" name="physical description">
+        </div-->
+        <div>
+            <label for="hd_material">Material:</label>
+            <select id="hd_material" name="material" data-select="sourceDesc > msDesc > physDesc > objectDesc > supportDesc" data-attr="material" required>
+                <option value="palm_leaf">palm leaf</option>
+                <option value="palm_leaf palmyra">palm leaf (palmyra)</option>
+                <option value="palm_leaf talipot">palm leaf (talipot)</option>
+                <option value="paper">paper</option>
+                <option value="handmade paper">handmade paper</option>
+                <option value="industrial paper">industrial paper</option>
+                <option value="birch bark">birch bark</option>
+            </select>
+            <label for="hd_support_height">Height:</label>
+            <input type="number" step="any" id="hd_support_height" name="height" data-select="sourceDesc > msDesc > physDesc > objectDesc > supportDesc > extent > dimensions > height">
+            <label for="hd_support_width">Width:</label>
+            <input type="number" step="any" id="hd_support_width" class="unit" name="width" data-select="sourceDesc > msDesc > physDesc > objectDesc > supportDesc > extent > dimensions > width">
+            <select id="hd_support_unit" name="units for material" data-select="sourceDesc > msDesc > physDesc > objectDesc > supportDesc > extent > dimensions" data-attr="unit">
+                <option value="cm">cm</option>
+                <option value="in">inches</option>
+            </select>
+        </div>
+        <div>
+            <label for="hd_extent_num">Extent:</label>
+            <input type="number" id="hd_extent_num" name="extent" data-select="sourceDesc > msDesc > physDesc > objectDesc > supportDesc > extent > measure" data-attr="quantity" required min="1">
+            <select id="hd_extent_unit" name="units for extent" data-select="sourceDesc > msDesc > physDesc > objectDesc > supportDesc > extent > measure" data-attr="unit" required>
+                <option value="folios">folios</option>
+                <option value="pages">pages</option>
+            </select>
+            <label for="hd_foliation">Foliation:</label>
+            <input type="text" id="hd_foliation" name="foliation" data-select="sourceDesc > msDesc > physDesc > objectDesc > supportDesc > foliation" placeholder="e.g., folio numbers on bottom-right corner, verso">
+        </div>
+        <div>
+            <label for="hd_complete">Condition:</label>
+            <select id="hd_complete" name="complete" data-select="sourceDesc > msDesc > physDesc > objectDesc > supportDesc > condition > ab" required>
+                <option value="Complete.">complete</option>
+                <option value="Incomplete.">incomplete</option>
+            </select>
+            <input type="text" id="hd_condition" name="condition" data-select="sourceDesc > msDesc > physDesc > objectDesc > supportDesc > condition > p" placeholder="e.g., slightly worm-eaten">
+        </div>
+        <div>
+            <label for="hd_layout">Layout:</label>
+            <input type="text" id="hd_layout" name="layout" data-select="sourceDesc > physDesc > objectDesc > layoutDesc > summary" placeholder="description of marginal frame lines, etc.">
+            <label for="hd_lines">Lines per page:</label>
+            <input type="text" id="hd_writtenLines" name="lines per page" data-select="sourceDesc > msDesc > physDesc > objectDesc > layoutDesc > layout" data-attr="writtenLines" required>
+        </div>
+        <div>
+            <label for="hd_handDesc">Hand description:</label>
+            <input type="text" id="hd_handDesc" name="hand description" data-select="sourceDesc > msDesc > physDesc > handDesc > summary" placeholder="peculiar glyphs, whether leaf is inked or incised">
+            <label for="hd_script">Script:</label>
+            <select id="hd_script" name="script" data-select="sourceDesc > msDesc > physDesc > handDesc > handNote" data-attr="script" required>
+                <option value="assamese">Asamiyā</option>
+                <option value="bengali">Bengāli</option>
+                <option value="devanagari">Devanāgarī</option>
+                <option value="grantha">Grantha</option>
+                <option value="gujarati">Gujarātī</option>
+                <option value="gurmukhi">Gurmukhī</option>
+                <option value="kannada">Kannaḍa</option>
+                <option value="khudawadi">Khudābādī</option>
+                <option value="tirhuta">Mithilākṣara</option>
+                <option value="nandinagari">Nandināgarī</option>
+                <option value="nepalaksara">Nepālākṣara</option>
+                <option value="malayalam">Malayālam</option>
+                <option value="oriya">Oḍiyā</option>
+                <option value="sharada">Śāradā</option>
+                <option value="sylheti">Siloṭi</option>
+                <option value="takri">Tākrī</option>
+                <option value="tamil">Tamil</option>
+                <option value="telugu">Telugu</option>
+                <option value="vatteluttu">Vaṭṭeḻuttu</option>
+            </select>
+        </div>
+        <div>
+            <label for="hd_scribe">Scribe:</label>
+            <input type="text" id="hd_scribe" name="scribe" data-select="sourceDesc > msDesc > physDesc > handDesc > handNote" data-attr="scribe" placeholder="name of scribe">
+        </div>
+        <div>
+            <label for="hd_additions">Additions:</label>
+            <input type="text" id="hd_additions" name="additions" data-select="sourceDesc > msDesc > physDesc > additions" placeholder="marginal glosses, corrections, etc.">
+        </div>
+        <div>
+            <label for="hd_origDate">Date:</label>
+            <input type="text" id="hd_origDate" name="date" data-select="sourceDesc > msDesc > history > origin > origDate" required pattern=".*\S.*" placeholder="date as given in the colophon, or estimate">
+        </div>
+        <div>
+            <label for="hd_calendar">Calendar:</label>
+            <select id="hd_calendar" data-select="sourceDesc > msDesc > history > origin > origDate" data-attr="calendar" required>
+                <option value="VS">Vikram Samvat</option>
+                <option value="SS">Śaka Samvat</option>
+                <option value="Gregorian">Gregorian</option>
+            </select>
+            <label for="hd_iso-date">ISO date:</label>
+            <input type="date" id="hd_iso-date" data-select="sourceDesc > msDesc > history > origin > origDate" data-attr="when-iso">
+            <img class="search pancanga" src="search_icon.svg" title="convert Samvat date to modern date">
+        </div>
+        <div>
+            <label for="hd_origPlace">Origin:</label>
+            <input type="text" id="hd_origPlace" name="date" data-select="sourceDesc > msDesc > history > origin > origPlace" placeholder="place of production">
+            <label for="hd_provenance">Provenance:</label>
+            <input type="text" id="hd_provenance" data-select="sourceDesc > msDesc > history > provenance" placeholder="how the manuscript was acquired">
+        </div>
+        <div>
+            <label for="hd_notesStmt">Notes:</label>
+            <textarea id="hd_noteStmt" name="contents" rows="2" data-select="notesStmt > note" placeholder="notes on this file"></textarea>
+        </div><div class="buttoncontainer row">
+            <button type="button" id="updateheader">update</button>
+            <button type="button" id="cancelheader">cancel</button>
+        </div>
+    </form>
+</div>
+<div id="teibody">
+    <form id="openform">
+        <div>
+            <div id="newfile">new file</div>
+            <div>open file:
+                <input type="file" id="file" name="file" accept=".xml"/>
+            </div>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

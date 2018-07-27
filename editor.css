@@ -1,0 +1,424 @@
+@font-face {
+    font-family: 'Pedantic Devanagari';
+    src: url('fonts/PedanticDevanagariLight.woff');
+    unicode-range: U+0900-U+097F,U+A8E0-U+A8FB,U+1CD0-U+1CF6,U+2E24;
+}
+
+@font-face {
+    font-family: 'Pedantic Devanagari';
+    src: url('fonts/PedanticDevanagariBold.woff');
+    unicode-range: U+0900-U+097F,U+A8E0-U+A8FB,U+1CD0-U+1CF6,U+2E24;
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: 'Pedantic Malayalam';
+    src: url('fonts/PedanticMalayalam.woff');
+    unicode-range: U+0D00-U+0D7F,U+25CC;
+}
+
+@font-face {
+    font-family: 'Pedantic Malayalam';
+    src: url('fonts/PedanticMalayalamBold.woff');
+    unicode-range: U+0D00-U+0D7F,U+25CC;
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: 'Pedantic Telugu';
+    src: url('fonts/PedanticTelugu.woff');
+    unicode-range: U+0C00-U+0C7F;
+}
+
+@font-face {
+    font-family: 'Pedantic Telugu';
+    src: url('fonts/PedanticTeluguBold.woff');
+    unicode-range: U+0C00-U+0C7F;
+    font-weight: bold;
+}
+
+body {
+    font-family: 'Alegreya Sans', 'Pedantic Devanagari', 'Pedantic Malayalam', 'Pedantic Telugu', sans-serif;
+    color: black;
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.2;
+    padding-top: 20px;
+    font-size: 2em;
+    letter-spacing: 0;
+}
+
+/* initial open file dialog */
+
+#openform {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+#openform > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    border: 1px dashed grey;
+    padding: 1em;
+}
+
+#openform div * {
+    margin-bottom: 1em;
+    font-family: 'Alegreya Sans', sans-serif;
+}
+
+#newfile {
+    cursor: pointer;
+}
+
+#newfile:hover {
+    text-decoration: underline;
+}
+
+/* styles after file has been loaded */
+
+hr {
+    border-color: grey;
+}
+
+#headeredit {
+    margin-top: 1em;
+}
+
+.editbutton {
+    cursor: pointer;
+    float: right;
+    height: 2rem;
+    opacity: 0.6;
+    vertical-align: middle;
+}
+
+.editbutton.offsetx {
+    margin-right: -80px;
+}
+
+.editbutton.offsety {
+    margin-top: -80px;
+}
+
+.editbutton:hover {
+    opacity: 1;
+}
+
+.buttoncontainer {
+    display: flex;
+    margin-left: 0;
+    width: 100%;
+}
+
+.row, #headereditor form div.row {
+    justify-content: flex-end;
+}
+
+.justified-row {
+    justify-content: space-between;
+}
+
+.column {
+    align-items: flex-end;
+    flex-direction: column;
+}
+
+button {
+    margin: 0.5em 0 0.5em 0.5em;
+}
+
+.CodeMirror { 
+    border: 1px solid #eee;
+}
+
+.wider_editor {
+    margin-left: -80px;
+    margin-right: -80px;
+}
+
+.story_editor .CodeMirror {
+    height: 500px;
+}
+
+/* transcription rendering tags */
+
+del {
+    text-decoration-color: red;
+    color: grey;
+}
+
+ins {
+    color: red;
+    text-decoration: none;
+}
+
+span.lb {
+    font-size: 70%;
+    margin-right: 1em;
+    color: black;
+    font-weight: normal;
+}
+
+span.lb-minimal {color:#FF9900;
+        letter-spacing:-0.15em;
+        font-size:1.5rem;
+        line-height:0.76;
+        font-family: serif;
+        font-weight:normal;
+        vertical-align: -0.1em;
+        cursor: default;
+        white-space: nowrap;
+}
+
+h3.pb {
+    color: black;
+}
+
+span.pb {
+        color: grey;
+        font-size: 1rem;
+        line-height: 0.76;
+        font-weight: normal;
+        font-family: sans-serif;
+        text-decoration: none;
+        vertical-align: super;
+        white-space: nowrap;
+        cursor: default;
+}
+
+div.fw {
+    margin-top: 1em;
+    font-weight: normal;
+    font-size: 1.5rem;
+}
+
+.right {
+    float: right;
+    clear: right;
+    position: relative;
+    margin-right: -80px;
+    width: 74px;
+    text-align: center;
+}
+
+.left {
+    float: left;
+    clear: left;
+    position: relative;
+    margin-left: -80px;
+    width: 74px;
+    text-align: center;
+}
+
+span.story {
+    font-size: 70%;
+    margin-right: 1em;
+    margin-left: 1em;
+    font-variant: small-caps;
+}
+
+h3.story {
+    color: black;
+    font-weight: normal;
+}
+
+span.verse {
+    font-weight: bold;
+}
+
+div.verse {
+    font-size: 1.2em;
+    margin: 1em 0 1em 1em;
+    text-align: justify;
+
+}
+
+.gaiji {
+    text-decoration: underline;
+    text-decoration-style: wavy;
+    text-decoration-color: red;
+}
+
+#headereditor {
+    display: none;
+}
+
+#headereditor form > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#headereditor form div label {
+    text-align: left;
+    margin-bottom: 1.5rem;
+}
+
+#headereditor form div label:first-of-type {
+    min-width: 70px;
+    max-width: 70px;
+}
+
+#headereditor form div input[type="number"], #hd_writtenLines {
+    max-width: 100px;
+}
+
+#headereditor form div input[type="text"] {
+    text-align: left;
+}
+
+#headereditor form div input.viaf[type="text"] {
+    min-width: 110px;
+    max-width: 110px;
+}
+
+#hd_extent_unit {
+    width: 150px;
+}
+
+#hd_calendar {
+    min-width: 165px;
+}
+
+#hd_iso-date {
+    min-width: 150px;
+    height: 3.8rem;
+    border: 0.1rem solid #d1d1d1;
+    border-radius: 0.4rem;
+}
+
+#hd_support_unit {
+    max-width: 100px;
+}
+
+#hd_complete {
+    max-width: 140px;
+}
+
+#hd_script {
+    max-width: 150px;
+}
+
+#headereditor form div *[required] {
+    border-color: black;
+}
+
+#headereditor form div select.lang {
+    max-width: 120px;
+}
+
+#headereditor form > div > *:not(:last-child) {
+    margin-right: 1em;
+}
+
+#headereditor form > div > .viaf {
+    margin-right: 0;
+}
+
+#headereditor form > div > #hd_iso-date {
+    margin-right: 0;
+}
+
+#headereditor .search {
+    margin-left: 0.2em;
+    min-width: 15px;
+    cursor: pointer; 
+}
+
+#headereditor form div input:invalid {
+    border: 1px dashed red;
+}
+
+.choices {
+    margin-bottom: inherit;
+    font-size: inherit;
+    align-self: start;
+    flex-grow: 1;
+}
+
+.choices__inner {
+    display: flex;
+    padding: 0;
+    background-color: #eee;
+    font-size: inherit;
+    min-height: inherit;
+    border-radius: 0.4rem;
+}
+
+.choices__list--multiple {
+    display: flex;
+    align-items: center;
+}
+
+.choices__item, .choices__list--multiple .choices__item {
+    font-size: inherit;
+    font-weight: inherit;
+    margin-right: 0.2em;
+    margin-left: 0.2em;
+    margin-bottom: 0;
+    color: inherit;
+/*    background-color: #f9f9f9;
+    border: 1px solid #9b4dca; */
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 5px;
+    word-break: normal;
+}
+
+.choices__list--multiple .choices__item.is-highlighted {
+    background-color: grey;
+    border: 1px solid white;
+    color: white;
+}
+
+input.choices__input {
+    background-color: white;
+    font-size: inherit;
+    width: inherit !important;
+    margin-bottom: 0;
+    max-width: 100px;
+    margin: 2px 0 2px 0;
+    height: 3.5rem;
+}
+
+#topbuttons {
+    display: none;
+    top: 0px;
+    position: sticky;
+    z-index: 100;
+    padding-bottom: 1.5em;
+    background: linear-gradient(white 60%, rgba(255,255,255,0));
+}
+
+#topbuttons .menu_left {
+    display: flex;
+    align-items: center;
+}
+
+#topmenu {
+    margin-bottom: 0;
+}
+
+#scriptselect {
+    width: 150px;
+    margin-bottom: 0;
+}
+
+img.link {
+    width: 12px;
+    margin-left: 0.1em;
+    vertical-align: super;
+}
+
+
+.aalt {
+    font-feature-settings: "aalt" 1;
+}
+
+.cv01 {
+    font-feature-settings: "cv01" 1;
+}
