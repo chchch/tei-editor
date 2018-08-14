@@ -190,6 +190,13 @@ span.pb {
         cursor: default;
 }
 
+span.gap {
+    background-color: rgba(132,132,10,0.3);
+    font-size: 85%;
+    color: rgb(84,84,84);
+}
+
+
 div.fw {
     margin-top: 1em;
     font-weight: normal;
@@ -388,6 +395,7 @@ input.choices__input {
 #topbuttons {
     display: none;
     top: 0px;
+    height: 80px;
     position: sticky;
     z-index: 100;
     padding-bottom: 1.5em;
@@ -396,16 +404,53 @@ input.choices__input {
 
 #topbuttons .menu_left {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
 }
 
 #topmenu {
     margin-bottom: 0;
+    position: absolute;
 }
 
 #scriptselect {
     width: 150px;
-    margin-bottom: 0;
+    margin: 0.3em 0 0.5em 0.5em;
+}
+
+.menubox {
+    cursor: pointer;
+}
+
+#scriptselect .heading {
+    position: relative;
+    border: 0.1rem solid #d1d1d1;
+    border-radius: .4rem;
+    height: 3.8rem;
+    padding: 0.6rem 1.0rem;
+    line-height: 1.15;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="14" viewBox="0 0 29 14" width="29"><path fill="%23d1d1d1" d="M9.37727 3.625l5.08154 6.93523L19.54036 3.625"/></svg>') center right no-repeat;
+}
+
+.menubox ul {
+    display: none;
+    list-style: none;
+    background: white;
+    border: 0.1rem solid #d1d1d1;
+    border-radius: .4rem;
+    padding: 0.5rem 0;
+}
+
+.menubox li {
+    padding-left: 0.5rem;
+}
+
+.menubox li:hover {
+    background: #9b4dca;
+    color: white;
+}
+
+.menubox li.selected {
+    display: none;
 }
 
 img.link {
@@ -422,3 +467,4 @@ img.link {
 .cv01 {
     font-feature-settings: "cv01" 1;
 }
+

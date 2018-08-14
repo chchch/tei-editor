@@ -191,6 +191,9 @@
     <xsl:if test="normalize-space(x:origin/x:origDate) != ''">
         <xsl:text>Date: </xsl:text>
         <xsl:apply-templates select="x:origin/x:origDate"/>
+        <xsl:text> (</xsl:text>
+        <xsl:value-of select="x:origin/x:origDate/@when-iso"/>
+        <xsl:text> CE)</xsl:text>
         <xsl:text>. </xsl:text>
     </xsl:if>
     <xsl:if test="normalize-space(x:provenance) != ''">

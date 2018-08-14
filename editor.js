@@ -1,50 +1,54 @@
 'use strict';
 
-var vetala = {
+var vetala = (function() {
 
-xmlDoc: null,
-xmlTxt: null,
-filename: null,
-pblocations: null,
-xml_folio: null,
-xml_div: null,
-prevcontents: null,
-editor: null,
-view: 'folio',
-script: 'iast',
+const state = {
+    editor: null,
+    filename: null,
+    xmlDoc: null,
+    xmlTxt: null,
+    xml_div: null,
+    xml_folio: null,
+    prevcontents: null,
+    pblocations: null,
+    view: 'folio',
+    script: 'iast',
+}
 
-init: function() {
+const init = function() {
 
-    document.getElementById('file').addEventListener('change',vetala.fileSelect,false);
-    document.getElementById('newfile').addEventListener('click',vetala.newFile);
-    vetala.scriptselect = document.getElementById('scriptselect')
-    vetala.scriptselect.value = 'iast';
-    vetala.scriptselect.addEventListener('change',vetala.scriptSelect);
-},
+    document.getElementById('file').addEventListener('change',fileSelect,false);
+    document.getElementById('newfile').addEventListener('click',newFile);
+    //scriptselect = document.getElementById('scriptselect')
+    //scriptselect.value = 'iast';
+    //scriptselect.addEventListener('change',scriptSelect);
+}
 
-fileSelect: function(e) {
+const fileSelect = function(e) {
     const file = e.target.files[0];
-    vetala.filename = file.name;
+    state.filename = file.name;
     const reader = new FileReader();
     reader.onload = function(e) {
-      const xmlDoc = vetala.parseXMLString(e.target.result);
-      vetala.xmlDoc = xmlDoc;
-      vetala.displayXML(xmlDoc);
-      document.body.addEventListener('click',vetala.bodyClick);
+      state.xmlDoc = parseXMLString(e.target.result);
+      displayXML(state.xmlDoc);
+      document.body.addEventListener('click',bodyClick);
+      document.getElementById('topmenu').addEventListener('mouseover',menuMouseover);
+      document.getElementById('topmenu').addEventListener('mouseout',menuMouseout);
+      document.getElementById('scriptselect').addEventListener('click',scriptSelect);
     };
     reader.readAsText(file);
-},
+}
 
-newFile: function() {
-    vetala.filename = 'new.xml';
-    const xmlDoc = vetala.parseXMLString(tei_template);
-    vetala.xmlDoc = xmlDoc;
-    vetala.displayXML(xmlDoc);
-    document.body.addEventListener('click',vetala.bodyClick);
-    vetala.initHeaderEditor();
-},
+const newFile = function() {
+    state.filename = 'new.xml';
+    const xmlDoc = parseXMLString(tei_template);
+    state.xmlDoc = xmlDoc;
+    displayXML(state.xmlDoc);
+    document.body.addEventListener('click',bodyClick);
+    initHeaderEditor();
+}
 
-parseXMLString: function(file) {
+const parseXMLString = function(file) {
     const xmlParser = new DOMParser();
     const newXmlDoc = xmlParser.parseFromString(file,'text/xml');
     if(newXmlDoc.documentElement.nodeName == 'parsererror')
@@ -52,109 +56,103 @@ parseXMLString: function(file) {
     else
         return newXmlDoc;
 
-},
+}
 
-bodyClick: function(e) {
+const bodyClick = function(e) {
     const classes = e.target.classList;
 
     if(e.target.id === 'headeredit')
-        vetala.initHeaderEditor();
+        initHeaderEditor();
 
     else if(classes.contains('editbutton'))
-        (vetala.view === 'folio') ?
-            vetala.initEditor(e.target.dataset.n) :
-            vetala.initEditorDiv(e.target.closest('div'));
+        (state.view === 'folio') ?
+            initEditor(e.target.dataset.n) :
+            initEditorDiv(e.target.closest('div'));
 
     else if(classes.contains('viaf_search'))
-        vetala.viafSearch(e.target);
+        viafSearch(e.target);
     
     else if(classes.contains('pancanga'))
-        vetala.pancangaSearch();
+        pancangaSearch();
 
     else if(e.target.id === 'updateheader')
-        vetala.updateHeader();
+        updateHeader();
 
     else if(e.target.id === 'cancelheader')
-        vetala.destroyHeaderEditor();
+        destroyHeaderEditor();
 
     else if(e.target.id === 'cancelbutton')
-        vetala.destroyEditor();
+        destroyEditor();
 
     else if(e.target.id === 'updatebutton')
-        (vetala.view === 'folio') ?
-            vetala.saveEdit() :
-            vetala.saveEditDiv();
+        (state.view === 'folio') ?
+            saveEdit() :
+            saveEditDiv();
 
     else if(e.target.id === 'appendbutton')
-        vetala.appendFolio();
+        appendFolio();
 
     else if(e.target.id === 'saveasbutton')
-        vetala.saveAs();
+        saveAs();
     else if(e.target.id === 'storyview')
-        vetala.changeView();
-},
+        changeView();
+}
 
-changeView: function() {
-    const middle = vetala.inViewport(document.getElementById('teiheader')) ?
+const changeView = function() {
+    const middle = inViewport(document.getElementById('teiheader')) ?
         null :
-        vetala.findMiddleElement();
+        findMiddleElement();
 
-    switch (vetala.view) {
+    switch (state.view) {
         case 'folio':
-           vetala.view = 'story';
+           state.view = 'story';
            break;
 
         default:
-            vetala.view = 'folio';
+            state.view = 'folio';
     }
-    vetala.renderMenu();
-    vetala.renderBody(vetala.xmlDoc);
-    if(vetala.script !== 'iast') {
-        let teibody = document.getElementById('teibody');
-        teibody.parentElement.replaceChild(
-            vetala.changeScript(teibody,vetala.script),
-            teibody);
-    }
-    vetala.setViewPos(middle);
-},
+    renderMenu();
+    renderBody(state.xmlDoc);
+    setViewPos(middle);
+}
 
-XSLTransform: function(xslsheet,node) {
+const XSLTransform = function(xslsheet,node) {
     const xslt_processor = new XSLTProcessor();
     xslt_processor.importStylesheet(xslsheet);
 
     return xslt_processor.transformToFragment(node,document);
- },
+}
 
-displayXML: function(xmlDoc) {
+const displayXML = function(xmlDoc) {
 
     // Render top row of buttons
 
-    vetala.renderMenu();
+    renderMenu();
 
     // Render TEI header
     
-    vetala.renderHeader(xmlDoc);
+    renderHeader(xmlDoc);
 
     // Render TEI body text
     
-    vetala.renderBody(xmlDoc);
+    renderBody(xmlDoc);
 
     // Split the body text into folios
     
-    vetala.xmlTxt = xmlDoc.documentElement.outerHTML;
-    vetala.splitSections(vetala.xmlTxt);
-},
+    state.xmlTxt = xmlDoc.documentElement.outerHTML;
+    splitSections(state.xmlTxt);
+}
 
-renderMenu: function() {
+const renderMenu = function() {
     const topbuttons = document.getElementById('topbuttons');
-    const storytxt = (vetala.view === 'story') ? 'view as folios' : 'view as running text';
+    const storytxt = (state.view === 'story') ? 'view as folios' : 'view as running text';
 
     topbuttons.querySelector('#storyview').innerHTML = storytxt;
     topbuttons.style.display = 'block';
 
-},
+}
 
-splitSections: function(xmlTxt) {
+const splitSections = function(xmlTxt) {
     const regex = RegExp('<pb\\s+n=[\'"](\\w+)[\'"].*\/>','g');
     var pblocations = [];
     var results;
@@ -164,12 +162,12 @@ splitSections: function(xmlTxt) {
     
     pblocations.push({n: null, loc: xmlTxt.indexOf('</body>')});
 
-    vetala.pblocations = pblocations;
-},
+    state.pblocations = pblocations;
+}
 
-renderHeader: function(xmlDoc) {
+const renderHeader = function(xmlDoc) {
     const teiheader = document.getElementById('teiheader');
-    const headerfragment = vetala.XSLTransform(
+    const headerfragment = XSLTransform(
             document.getElementById('tei_header_style').contentDocument,
             xmlDoc.getElementsByTagName('teiHeader')[0]
     );
@@ -177,23 +175,30 @@ renderHeader: function(xmlDoc) {
     teiheader.innerHTML = '';
     teiheader.appendChild(headerfragment);
     
-},
+}
 
-renderBody: function(xmlDoc) {
+const renderBody = function(xmlDoc) {
     const HTMLbody = document.getElementById('teibody');
     const XMLbody = xmlDoc.getElementsByTagName('body')[0];
 
     HTMLbody.innerHTML = '';
 
-    if(vetala.view === 'story') 
-        vetala.renderBodyStory(HTMLbody,XMLbody);
+    if(state.view === 'story') 
+        renderBodyStory(HTMLbody,XMLbody);
     else
-        vetala.renderBodyFolios(HTMLbody,XMLbody);
-},
+        renderBodyFolios(HTMLbody,XMLbody);
 
-renderBodyFolios: function(HTMLbody,XMLbody) {
+    if(state.script !== 'iast') {
+        let teibody = document.getElementById('teibody');
+        teibody.parentElement.replaceChild(
+            changeScript(teibody,state.script),
+            teibody);
+    }
+}
+
+const renderBodyFolios = function(HTMLbody,XMLbody) {
     const bodyXSLT = document.getElementById('tei_body_style').contentDocument;
-    const bodyfragment = vetala.XSLTransform(bodyXSLT,XMLbody);
+    const bodyfragment = XSLTransform(bodyXSLT,XMLbody);
 
     HTMLbody.style.paddingLeft = '0';
     HTMLbody.style.paddingRight = '0';
@@ -208,11 +213,11 @@ renderBodyFolios: function(HTMLbody,XMLbody) {
 </form> `);
     HTMLbody.appendChild(lasthr);
     HTMLbody.appendChild(appendform);
-},
+}
 
-renderBodyStory: function(HTMLbody,XMLbody) {
+const renderBodyStory = function(HTMLbody,XMLbody) {
     const bodyXSLT = document.getElementById('tei_body_style_divs').contentDocument;
-    const bodyfragment = vetala.XSLTransform(bodyXSLT,XMLbody);
+    const bodyfragment = XSLTransform(bodyXSLT,XMLbody);
 
     const firsthr = document.createElement('hr');
     firsthr.setAttribute('data-n','_first');
@@ -223,21 +228,21 @@ renderBodyStory: function(HTMLbody,XMLbody) {
     HTMLbody.style.paddingLeft = '80px';
     HTMLbody.style.paddingRight = '80px';
     HTMLbody.style.textAlign = 'justify';
-    HTMLbody.appendChild(vetala.prettyPrint(bodyfragment));
-},
+    HTMLbody.appendChild(prettyPrint(bodyfragment));
+}
 
-saveAs: function() {
-    const file = new Blob([vetala.xmlTxt], {type: 'text/xml'});
+const saveAs = function() {
+    const file = new Blob([state.xmlTxt], {type: 'text/xml'});
     const fileURL = URL.createObjectURL(file);
     const anchor = document.createElement('a');
     anchor.href = fileURL;anchor.target = '_blank';
-    anchor.download = vetala.filename;
+    anchor.download = state.filename;
     document.body.appendChild(anchor);
     anchor.click();
     document.body.removeChild(anchor);
-},
+}
 
-getSchema: function() {
+const getSchema = function() {
     const custom = ['storyStart','storyEnd','verseStart','verseEnd','frameStart','frameEnd'];
     const layout = ['pb','lb','fw','space']; // no divs anymore
     const emendations = ['add','del','subst'];
@@ -357,9 +362,9 @@ getSchema: function() {
     };
 
     return tags;
-},
+}
 
-prettyPrint: function(el) {
+const prettyPrint = function(el) {
     const node = el.cloneNode(true);
     const walker = document.createTreeWalker(node,NodeFilter.SHOW_TEXT);
     while(walker.nextNode()) {
@@ -381,10 +386,10 @@ prettyPrint: function(el) {
         walker.currentNode.data = data;
     }
     return node;
-},
+}
 
-changeScript: function(orignode,script,placeholder = false,cur_lang="sa") {
-    const func = vetala.to[script];
+const changeScript = function(orignode,script,placeholder = false,cur_lang="sa") {
+    const func = to[script];
     const node = orignode.cloneNode(true);
     var cur_lang;
 
@@ -405,7 +410,7 @@ changeScript: function(orignode,script,placeholder = false,cur_lang="sa") {
             else if(kid.hasChildNodes()) {
                 let kidlang = kid.getAttribute('lang') || cur_lang;
                 if(kidlang === 'sa' && kid.classList.contains('subst'))
-                    vetala.jiggle(kid,script);
+                    jiggle(kid,script);
                 loop(kid,kidlang);
             }
         }
@@ -413,9 +418,9 @@ changeScript: function(orignode,script,placeholder = false,cur_lang="sa") {
 
     loop(node,cur_lang);
     return node;
-},
+}
 
-jiggle: function(node,script) {
+const jiggle = function(node,script) {
     if(node.firstChild.nodeType !== 3 && node.lastChild.nodeType !== 3) 
         return;
 
@@ -446,7 +451,7 @@ jiggle: function(node,script) {
 
         if(txt.match(ends_with_consonant)) {
         // add 'a' if node ends in a consonant
-            const last_txt = vetala.findTextNode(kid,true);
+            const last_txt = findTextNode(kid,true);
             last_txt.textContent = last_txt.textContent.replace(/\s+$/,'') + 'a';
             if(script === 'telugu' &&
                telu_cons_headstroke.indexOf(txt) >= 0) {
@@ -488,27 +493,27 @@ jiggle: function(node,script) {
                 }
                 else if(txt === 'ô') {
                     const new_e = kid.cloneNode(true);
-                    vetala.replaceTextInNode('ô','ê',new_e);
+                    replaceTextInNode('ô','ê',new_e);
                     new_e.classList.remove('aalt');
                     new_e.classList.add('cv01');
                     add_at_beginning.unshift(new_e);
-                    vetala.replaceTextInNode('ô','ā',kid);
+                    replaceTextInNode('ô','ā',kid);
                 }
                 else if(txt === 'aî') {
                     const new_e = kid.cloneNode(true);
-                    vetala.replaceTextInNode('aî','ê',new_e);
+                    replaceTextInNode('aî','ê',new_e);
                     new_e.classList.remove('aalt');
                     new_e.classList.add('cv01');
                     add_at_beginning.unshift(new_e);
-                    vetala.replaceTextInNode('aî','e',kid);
+                    replaceTextInNode('aî','e',kid);
                 }
                 else if(txt === 'aû') {
                     const new_e = kid.cloneNode(true);
-                    vetala.replaceTextInNode('aû','ê',new_e);
+                    replaceTextInNode('aû','ê',new_e);
                     new_e.classList.remove('aalt');
                     new_e.classList.add('cv01');
                     add_at_beginning.unshift(new_e);
-                    vetala.replaceTextInNode('aû','o',kid);
+                    replaceTextInNode('aû','o',kid);
                 }
                 break;
             case 'grantha':
@@ -517,9 +522,9 @@ jiggle: function(node,script) {
                     add_at_beginning.unshift(kid);
                 else if(txt === 'o') {
                     const new_e = kid.cloneNode(true);
-                    vetala.replaceTextInNode('o','e',new_e);
+                    replaceTextInNode('o','e',new_e);
                     add_at_beginning.unshift(new_e);
-                    vetala.replaceTextInNode('o','ā',kid);
+                    replaceTextInNode('o','ā',kid);
                 }
                 break;
             case 'telugu':
@@ -538,13 +543,13 @@ jiggle: function(node,script) {
 
     if(telugu_del_headstroke) {
         for (const el of telugu_kids) {
-            const lasttxtnode = vetala.findTextNode(el,true);
+            const lasttxtnode = findTextNode(el,true);
             lasttxtnode.textContent = lasttxtnode.textContent + '\u200D\u0C4D';
         }
     }
-},
+}
 
-findTextNode: function(node,last = false) {
+const findTextNode = function(node,last = false) {
     if(node.nodeType === 3) return node;
     const walker = document.createTreeWalker(node,NodeFilter.SHOW_TEXT,null,false);
     if(!last) return walker.nextNode;
@@ -554,18 +559,18 @@ findTextNode: function(node,last = false) {
             txt = walker.currentNode;
         return txt;
     }
-},
+}
 
-replaceTextInNode: function(text, replace, node) {
+const replaceTextInNode = function(text, replace, node) {
     const walker = document.createTreeWalker(node,NodeFilter.SHOW_TEXT,null,false);
     while(walker.nextNode()) {
         let cur_txt = walker.currentNode.textContent;
         if(cur_txt.match(text))
             walker.currentNode.textContent = replace;
     }
-},
+}
 
-extractHTMLFolio: function(pb_n) {
+const extractHTMLFolio = function(pb_n) {
 
     if(pb_n === '_last') {
         let appendform = document.getElementById('appendform');
@@ -604,9 +609,9 @@ extractHTMLFolio: function(pb_n) {
     else
         range.setEndBefore(end);
     return {prevcontents: range.extractContents(),start: start,end: end};
-},
+}
 
-getNewFolio: function() {
+const getNewFolio = function() {
     var new_folio;
     
     const pbs = document.querySelectorAll('h3[class="pb"]');
@@ -646,20 +651,20 @@ getNewFolio: function() {
 `;
 
     return new_folio;
-},
+}
 
-extractXMLFolio: function(pb_n) {
+const extractXMLFolio = function(pb_n) {
     var start_index, end_index, prevcontents;
 
     if(pb_n === '_last') {
-       start_index = vetala.pblocations[vetala.pblocations.length - 1].loc;
+       start_index = state.pblocations[state.pblocations.length - 1].loc;
        end_index = start_index;
-       prevcontents = vetala.getNewFolio();
+       prevcontents = getNewFolio();
     }
     else {
         var next_is_end = false;
 
-        for(let pbloc of vetala.pblocations) {
+        for(let pbloc of state.pblocations) {
             if(next_is_end) {
                 end_index = pbloc.loc;
                 break;
@@ -669,78 +674,66 @@ extractXMLFolio: function(pb_n) {
                 next_is_end = true;
             }
         }
-        prevcontents = vetala.xmlTxt.substring(start_index,end_index);
+        prevcontents = state.xmlTxt.substring(start_index,end_index);
     }
 
     return {start: start_index, end: end_index, prevcontents: prevcontents};
-},
+}
 
-saveEdit: function() {
-    vetala.editor.save();
+const saveEdit = function() {
+    state.editor.save();
     const savetxt = document.getElementById('edit_in_place').value;
-    const newtxt = vetala.xmlTxt.substring(0,vetala.xml_folio.start) + 
+    const newtxt = state.xmlTxt.substring(0,state.xml_folio.start) + 
                  savetxt +
-                 vetala.xmlTxt.substring(vetala.xml_folio.end);
-    vetala.xmlTxt  = newtxt;
+                 state.xmlTxt.substring(state.xml_folio.end);
+    //state.xmlTxt  = newtxt;
     const xmlParser = new DOMParser();
     const newXmlDoc = xmlParser.parseFromString(newtxt,'text/xml');
     if(newXmlDoc.documentElement.nodeName === 'parsererror')
         alert('XML errors!');
     else {
-        vetala.xmlTxt = newtxt;
-        vetala.splitSections(newtxt);
-        vetala.xmlDoc = newXmlDoc;
-        vetala.renderBody(newXmlDoc);
-        if(vetala.script !== 'iast') {
-            let teibody = document.getElementById('teibody');
-            teibody.parentElement.replaceChild(
-                vetala.changeScript(teibody,vetala.script),
-                teibody);
-        }
+        state.xmlTxt = newtxt;
+        splitSections(newtxt);
+        state.xmlDoc = newXmlDoc;
+        renderBody(newXmlDoc);
     }
-},
+}
 
-saveEditDiv: function() {
-    vetala.editor.save();
+const saveEditDiv = function() {
+    state.editor.save();
     const savetxt = document.getElementById('edit_in_place').value;
     const xmlParser = new DOMParser();
     const divfrag = xmlParser.parseFromString(savetxt,'text/xml');
     if(divfrag.documentElement.nodeName === 'parsererror')
         alert('XML errors!');
     else {
-        const newdiv = vetala.xmlDoc.createRange().createContextualFragment(savetxt);
-        vetala.xml_div.parentNode.replaceChild(newdiv,vetala.xml_div);
-        vetala.xmlTxt  = vetala.xmlDoc.documentElement.outerHTML;
-        vetala.splitSections(vetala.xmlTxt);
-        vetala.renderBody(vetala.xmlDoc);
-        if(vetala.script !== 'iast') {
-            let teibody = document.getElementById('teibody');
-            teibody.parentElement.replaceChild(
-                vetala.changeScript(teibody,vetala.script),
-                teibody);
-        }
+        const newdiv = state.xmlDoc.createRange().createContextualFragment(savetxt);
+        state.xml_div.parentNode.replaceChild(newdiv,state.xml_div);
+        state.xmlTxt  = state.xmlDoc.documentElement.outerHTML;
+        splitSections(state.xmlTxt);
+        renderBody(state.xmlDoc);
     }
-},
+}
 
-appendFolio: function() {
-    vetala.initEditor('_last');
-},
+const appendFolio = function() {
+    initEditor('_last');
+}
 
-destroyEditor: function() {
+const destroyEditor = function() {
     const editor = document.getElementById('editor_form');
     if(!editor) return false;
-    editor.parentNode.insertBefore(vetala.prevcontents,editor);
+    editor.parentNode.insertBefore(state.prevcontents,editor);
     editor.parentNode.removeChild(editor);
-    vetala.prevcontents = null;
+    state.prevcontents = null;
     return true;
-},
+}
 
-initEditor: function(pb_n) {
+const initEditor = function(pb_n) {
     
-    vetala.destroyEditor();
+    destroyEditor();
 
-    const xml_folio = vetala.extractXMLFolio(pb_n);
-    vetala.xml_folio = xml_folio;
+    const xml_folio = extractXMLFolio(pb_n);
+    state.xml_folio = xml_folio;
     const textarea = document.createElement('textarea');
     textarea.setAttribute('id','edit_in_place');
     const buttoncontainer = document.createRange().createContextualFragment(
@@ -755,8 +748,8 @@ initEditor: function(pb_n) {
 
     textarea.value = xml_folio.prevcontents;
 
-    const html_folio = vetala.extractHTMLFolio(pb_n);
-    vetala.prevcontents = html_folio.prevcontents;
+    const html_folio = extractHTMLFolio(pb_n);
+    state.prevcontents = html_folio.prevcontents;
     
     // this fixes things when you're cutting up a div
     if(html_folio.start.parentNode.getAttribute('id') === 'teibody') {
@@ -771,30 +764,30 @@ initEditor: function(pb_n) {
         */
         html_folio.end.parentNode.insertBefore(form,html_folio.end);
     }
-    vetala.initCodeMirror(textarea);
-},
+    initCodeMirror(textarea);
+}
 
-findDivNum: function(targ) {
+const findDivNum = function(targ) {
     const alldivs = document.getElementById('teibody')
                             .querySelectorAll('div.story, div.verse, div.para');
     for(let n=0;n<alldivs.length;n++) {
         if(alldivs[n] === targ)
             return n;
     }
-},
+}
 
-getXmlDiv: function(n) {
-    const XMLbody = vetala.xmlDoc.getElementsByTagName('body')[0];
+const getXmlDiv = function(n) {
+    const XMLbody = state.xmlDoc.getElementsByTagName('body')[0];
     const alldivs = XMLbody.querySelectorAll('div[type="verse"], div[type="story"], div[type="para"]');
     return alldivs[n];
-},
+}
 
-initEditorDiv: function(targ) {
+const initEditorDiv = function(targ) {
     
-    vetala.destroyEditor();
-    const divnum = vetala.findDivNum(targ);
-    const xmldiv = vetala.getXmlDiv(divnum);
-    vetala.xml_div = xmldiv;
+    destroyEditor();
+    const divnum = findDivNum(targ);
+    const xmldiv = getXmlDiv(divnum);
+    state.xml_div = xmldiv;
     const textarea = document.createElement('textarea');
     textarea.setAttribute('id','edit_in_place');
     const buttoncontainer = document.createRange().createContextualFragment(
@@ -814,12 +807,12 @@ initEditorDiv: function(targ) {
     textarea.value = xmldiv.outerHTML;
 
     targ.parentNode.insertBefore(form,targ);
-    vetala.prevcontents = targ.parentNode.removeChild(targ);
+    state.prevcontents = targ.parentNode.removeChild(targ);
     
-    vetala.initCodeMirror(textarea);
-},
+    initCodeMirror(textarea);
+}
 
-initCodeMirror: function(textarea) {
+const initCodeMirror = function(textarea) {
 
     function completeAfter(cm, pred) {
         var cur = cm.getCursor();
@@ -846,7 +839,7 @@ initCodeMirror: function(textarea) {
         });
     }
 
-    vetala.editor = CodeMirror.fromTextArea(textarea, {
+    state.editor = CodeMirror.fromTextArea(textarea, {
         mode: "xml",
         lineNumbers: true,
         extraKeys: {
@@ -856,19 +849,19 @@ initCodeMirror: function(textarea) {
           "'='": completeIfInTag,
           "Ctrl-Space": "autocomplete"
         },
-        hintOptions: {schemaInfo: vetala.getSchema()},
+        hintOptions: {schemaInfo: getSchema()},
         lint: true,
         gutters: ['CodeMirror-lint-markers'],
         lineWrapping: true,
     });
-},
+}
 
-initHeaderEditor: function() {
+const initHeaderEditor = function() {
     const editor = document.getElementById('headereditor');
     document.getElementById('teiheader').style.display = 'none';
     const fields = editor.querySelectorAll('input,select,textarea');
     for(let field of fields) {
-        let xmlEl = vetala.xmlDoc.querySelector(field.dataset.select);
+        let xmlEl = state.xmlDoc.querySelector(field.dataset.select);
         let attr = field.dataset.attr;
         let prefix = field.dataset.prefix;
         let value;
@@ -902,19 +895,20 @@ initHeaderEditor: function() {
     }
     editor.style.display = 'block';
     const choices = new Choices(document.getElementById('hd_otherLangs'));
-},
+}
 
-viafSearch: function(imgEl) {
+const viafSearch = function(imgEl) {
     const search_term = imgEl.parentElement.querySelector('input').value;
     const window_features = "menubar=no,height=500,width=600,centerscreen=yes,scrollbars=yes";
     window.open('https://viaf.org/viaf/search?query=local.names+all+"'+search_term+'"',"VIAFsearch",window_features);
-},
-pancangaSearch: function() {
+}
+
+const pancangaSearch = function() {
     const window_features = "menubar=no,height=500,width=600,centerscreen=yes,scrollbars=yes";
     window.open('http://www.cc.kyoto-su.ac.jp/~yanom/pancanga/',"PancangaSearch",window_features);
-},
+}
 
-updateHeader: function() {
+const updateHeader = function() {
     const editor = document.getElementById('headereditor');
     const fields = editor.querySelectorAll('input,select,textarea');
     for(let field of fields) {
@@ -929,7 +923,7 @@ updateHeader: function() {
             field.value;
         let attr = field.dataset.attr;
         let prefix = field.dataset.prefix;
-        let xmlEl = vetala.xmlDoc.querySelector(field.dataset.select);
+        let xmlEl = state.xmlDoc.querySelector(field.dataset.select);
         if(!value) {
             if(!xmlEl) continue;
             else {
@@ -940,7 +934,7 @@ updateHeader: function() {
                 continue;
             }
         }
-        if(!xmlEl) xmlEl = vetala.makeElement(vetala.xmlDoc,field.dataset.select,'fileDesc');
+        if(!xmlEl) xmlEl = makeElement(state.xmlDoc,field.dataset.select,'fileDesc');
         if(field.multiple) {
             let selected = [];
             for(let opt of field.querySelectorAll('option[selected]'))
@@ -956,23 +950,23 @@ updateHeader: function() {
     }
     
     // update title field in titleStmt
-    const titleStmttitle = vetala.xmlDoc.querySelector('titleStmt > title');
-    const title = vetala.xmlDoc.querySelector(editor.querySelector('#hd_title').dataset.select).innerHTML;
-    const author = vetala.xmlDoc.querySelector(editor.querySelector('#hd_author').dataset.select).innerHTML;
-    const idno = vetala.xmlDoc.querySelector(editor.querySelector('#hd_idno').dataset.select).innerHTML;
+    const titleStmttitle = state.xmlDoc.querySelector('titleStmt > title');
+    const title = state.xmlDoc.querySelector(editor.querySelector('#hd_title').dataset.select).innerHTML;
+    const author = state.xmlDoc.querySelector(editor.querySelector('#hd_author').dataset.select).innerHTML;
+    const idno = state.xmlDoc.querySelector(editor.querySelector('#hd_idno').dataset.select).innerHTML;
     titleStmttitle.innerHTML = `
     <title type="main">${idno}</title>
     <title type="sub">${title} of ${author}</title>
 `;
     
-    vetala.xmlTxt = vetala.xmlDoc.documentElement.outerHTML;
-    vetala.splitSections(vetala.xmlTxt);
-    vetala.renderHeader(vetala.xmlDoc);
+    state.xmlTxt = state.xmlDoc.documentElement.outerHTML;
+    splitSections(state.xmlTxt);
+    renderHeader(state.xmlDoc);
     editor.style.display = 'none';
     document.getElementById('teiheader').style.display = 'block';
-},
+}
 
-makeElement: function(xmlDoc,selector,par) {
+const makeElement = function(xmlDoc,selector,par) {
     const ns = xmlDoc.querySelector('TEI').namespaceURI;
     var par_el = xmlDoc.querySelector(par);
     const children = selector.split(/[\s>]/g).filter(x => x);
@@ -986,41 +980,65 @@ makeElement: function(xmlDoc,selector,par) {
         else par_el = child_el;
     }
     return par_el;
-},
+}
 
-destroyHeaderEditor: function() {
+const destroyHeaderEditor = function() {
     document.getElementById('headereditor').style.display = 'none';
     document.getElementById('teiheader').style.display = 'block';
-},
+}
 
-scriptSelect: function() {
-    const script = vetala.scriptselect.value;
+const menuMouseover = function(e) {
+    const targ = e.target.classList.contains('menubox') ?
+        e.target :
+        e.target.closest(".menubox");
+    if(targ) {
+        targ.querySelector('ul').style.display = 'block';
+        targ.classList.add('open');
+    }
+}
+
+const menuMouseout = function(e) {
+    const targ = e.target.classList.contains('menubox') ?
+        e.target :
+        e.target.closest(".menubox");
+    if(targ) {
+        targ.querySelector('ul').style.display = 'none';
+        targ.classList.remove('open');
+    }
+}
+
+const scriptSelect = function(e) {
+    if(e.target.tagName !== 'LI') return;
+    const script = e.target.dataset.value;
+    const scriptlist = document.querySelectorAll('#scriptselect li');
+    for(const li of scriptlist) {
+        if(li.dataset.value === script)
+            li.classList.add('selected');
+        else
+            li.classList.remove('selected');
+    }
+    document.querySelector('#scriptselect .heading').textContent = e.target.textContent;
+
     const teibody = document.getElementById('teibody');
     const headerdiv = document.getElementById('teiheader');
-    const middle = vetala.inViewport(headerdiv) ?
+    const middle = inViewport(headerdiv) ?
         null :
-        vetala.findMiddleElement();
+        findMiddleElement();
 
-    if(vetala.script !== 'iast' || script === 'iast')
-        vetala.renderBody(vetala.xmlDoc);
+    state.script = script;
 
-    vetala.script = script;
+    renderBody(state.xmlDoc);
     
-    if(vetala.script !== 'iast')
-        teibody.parentElement.replaceChild(
-            vetala.changeScript(teibody,vetala.script),
-            teibody);
-    
-    vetala.setViewPos(middle);
-},
+    setViewPos(middle);
+}
 
-inViewport: function(el) {
+const inViewport = function(el) {
     const rect = el.getBoundingClientRect();
     return el.top >= 0 && el.bottom <= window.innerHeight;
-},
+}
 
-findMiddleElement: function() {
-    const lbs = (vetala.view === 'folio') ? 
+const findMiddleElement = function() {
+    const lbs = (state.view === 'folio') ? 
         document.querySelectorAll('.lb') :
         document.querySelectorAll('.lb-minimal');
     const midheight = window.innerHeight/2;
@@ -1044,23 +1062,23 @@ findMiddleElement: function() {
         midel = lbs.length-1;
     return [midel,lastdist];
 
-},
+}
 
-getOffsetTop: function(el) {
+const getOffsetTop = function(el) {
     return el.getBoundingClientRect().top + window.pageYOffset;
-},
+}
 
-setViewPos: function(middle) {
+const setViewPos = function(middle) {
     if(middle === null)
         return;
-    const midel = (vetala.view === 'folio') ?
+    const midel = (state.view === 'folio') ?
         document.querySelectorAll('.lb')[middle[0]] :
         document.querySelectorAll('.lb-minimal')[middle[0]];
-    const dist = vetala.getOffsetTop(midel) + middle[1] - window.innerHeight/2;
+    const dist = getOffsetTop(midel) + middle[1] - window.innerHeight/2;
     window.scrollTo(0,dist);
-},
+}
 
-to: {
+const to = {
 
     smush: function(text,placeholder) {
         text = text.toLowerCase();
@@ -1103,7 +1121,7 @@ to: {
 
         text = text.replace(/^_ā/,"\u093D\u200D\u093E");
 
-        text = vetala.to.smush(text,placeholder);
+        text = to.smush(text,placeholder);
 
         text = Sanscript.t(text,'iast','devanagari',options);
 
@@ -1128,7 +1146,7 @@ to: {
 
         text = text.replace(/^_ā/,"\u0D3D\u200D\u0D3E");
 
-        text = vetala.to.smush(text,placeholder);
+        text = to.smush(text,placeholder);
         text = text.replace(/e/g,'ẽ'); // hack to make long e's short
         text = text.replace(/o/g,'õ'); // same with o
         text = text.replace(/ṙ/g, 'r'); // no valapalagilaka
@@ -1159,7 +1177,7 @@ to: {
 
         text = text.replace(/^_ā/,"\u0C3D\u200D\u0C3E");
 
-        text = vetala.to.smush(text,placeholder);        
+        text = to.smush(text,placeholder);        
         text = text.replace(/e/g,'ẽ'); // hack to make long e's short
         text = text.replace(/o/g,'õ'); // same with o
         text = text.replace(/ṙ/g,'r\u200D'); // valapalagilaka
@@ -1173,8 +1191,12 @@ to: {
 
         return text;
     },
-},
+}
 
-}; // end vetala class
+return {
+    init: init,
+}
+
+}()); // end vetala class
 
 window.addEventListener('load',vetala.init);

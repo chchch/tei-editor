@@ -42,12 +42,21 @@
 <div id="topbuttons">
     <form id="topmenu" class="buttoncontainer justified-row">
         <span class="menu_left">
-            <select id="scriptselect">
+            <div id="scriptselect" class="menubox">
+                <div class="heading">IAST</div>
+                <ul class="dropdown">
+                    <li data-value="iast" class="selected">IAST</li>
+                    <li data-value="devanagari">Devanāgarī</li>
+                    <li data-value="malayalam">Malayālam</li>
+                    <li data-value="telugu">Telugu</li>
+                </ul>
+            </div>
+            <!--select id="scriptselect">
                 <option value="iast">IAST</option>
                 <option value="devanagari">Devanāgarī</option>
                 <option value="malayalam">Malayālam</option>
                 <option value="telugu">Telugu</option>
-            </select>
+            </select-->
             <button type="button" id="storyview"></button>
         </span>
         <button type="button" id="saveasbutton">save as...</button>
