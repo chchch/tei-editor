@@ -17,35 +17,48 @@ const state = {
 
 const init = function() {
 
-    document.getElementById('file').addEventListener('change',fileSelect,false);
-    document.getElementById('newfile').addEventListener('click',newFile);
+    document.getElementById('file').addEventListener('change',file.select,false);
+    document.getElementById('newfile').addEventListener('click',file.startnew);
     //scriptselect = document.getElementById('scriptselect')
     //scriptselect.value = 'iast';
     //scriptselect.addEventListener('change',scriptSelect);
 }
 
-const fileSelect = function(e) {
-    const file = e.target.files[0];
-    state.filename = file.name;
-    const reader = new FileReader();
-    reader.onload = function(e) {
+const file = {
+    select: function(e) {
+        const f = e.target.files[0];
+        state.filename = f.name;
+        const reader = new FileReader();
+        reader.onload = file.display;
+        reader.readAsText(f);
+    },
+
+    display: function(e) {
       state.xmlDoc = parseXMLString(e.target.result);
       displayXML(state.xmlDoc);
       document.body.addEventListener('click',bodyClick);
-      document.getElementById('topmenu').addEventListener('mouseover',menuMouseover);
-      document.getElementById('topmenu').addEventListener('mouseout',menuMouseout);
-      document.getElementById('scriptselect').addEventListener('click',scriptSelect);
-    };
-    reader.readAsText(file);
-}
+      document.getElementById('topmenu').addEventListener('mouseover',menu.mouseover);
+      document.getElementById('topmenu').addEventListener('mouseout',menu.mouseout);
+      document.getElementById('scriptselect').addEventListener('click',menu.scriptSelect);
+      document.getElementById('menu_width').addEventListener('change',menu.widthChange);
+      const menu_options = document.getElementById('options_options').querySelectorAll('input[type="checkbox"]');
+      for(const option of menu_options) {
+          option.checked = true;
+          option.addEventListener('change',menu.showHide);
+      }
+    },
 
-const newFile = function() {
-    state.filename = 'new.xml';
-    const xmlDoc = parseXMLString(tei_template);
-    state.xmlDoc = xmlDoc;
-    displayXML(state.xmlDoc);
-    document.body.addEventListener('click',bodyClick);
-    initHeaderEditor();
+    startnew: function() {
+        state.filename = 'new.xml';
+        file.display({target: {result: tei_template}});
+    /*
+        const xmlDoc = parseXMLString(tei_template);
+        state.xmlDoc = xmlDoc;
+        displayXML(state.xmlDoc);
+        document.body.addEventListener('click',bodyClick);
+    */
+        headerEditor.init();
+    },
 }
 
 const parseXMLString = function(file) {
@@ -62,7 +75,7 @@ const bodyClick = function(e) {
     const classes = e.target.classList;
 
     if(e.target.id === 'headeredit')
-        initHeaderEditor();
+        headerEditor.init();
 
     else if(classes.contains('editbutton'))
         (state.view === 'folio') ?
@@ -70,16 +83,16 @@ const bodyClick = function(e) {
             initEditorDiv(e.target.closest('div'));
 
     else if(classes.contains('viaf_search'))
-        viafSearch(e.target);
+        headerEditor.viafSearch(e.target);
     
     else if(classes.contains('pancanga'))
-        pancangaSearch();
+        headerEditor.pancangaSearch();
 
     else if(e.target.id === 'updateheader')
-        updateHeader();
+        headerEditor.update();
 
     else if(e.target.id === 'cancelheader')
-        destroyHeaderEditor();
+        HeaderEditor.destroy();
 
     else if(e.target.id === 'cancelbutton')
         destroyEditor();
@@ -99,9 +112,7 @@ const bodyClick = function(e) {
 }
 
 const changeView = function() {
-    const middle = inViewport(document.getElementById('teiheader')) ?
-        null :
-        findMiddleElement();
+    const middle = viewPos.findPageMiddle();
 
     switch (state.view) {
         case 'folio':
@@ -111,9 +122,10 @@ const changeView = function() {
         default:
             state.view = 'folio';
     }
-    renderMenu();
-    renderBody(state.xmlDoc);
-    setViewPos(middle);
+    render.menu();
+    render.body(state.xmlDoc);
+    render.options();
+    viewPos.set(middle);
 }
 
 const XSLTransform = function(xslsheet,node) {
@@ -127,15 +139,15 @@ const displayXML = function(xmlDoc) {
 
     // Render top row of buttons
 
-    renderMenu();
+    render.menu();
 
     // Render TEI header
     
-    renderHeader(xmlDoc);
+    render.header(xmlDoc);
 
     // Render TEI body text
     
-    renderBody(xmlDoc);
+    render.body(xmlDoc);
 
     // Split the body text into folios
     
@@ -143,14 +155,6 @@ const displayXML = function(xmlDoc) {
     splitSections(state.xmlTxt);
 }
 
-const renderMenu = function() {
-    const topbuttons = document.getElementById('topbuttons');
-    const storytxt = (state.view === 'story') ? 'view as folios' : 'view as running text';
-
-    topbuttons.querySelector('#storyview').innerHTML = storytxt;
-    topbuttons.style.display = 'block';
-
-}
 
 const splitSections = function(xmlTxt) {
     const regex = RegExp('<pb\\s+n=[\'"](\\w+)[\'"].*\/>','g');
@@ -165,81 +169,105 @@ const splitSections = function(xmlTxt) {
     state.pblocations = pblocations;
 }
 
-const renderHeader = function(xmlDoc) {
-    const teiheader = document.getElementById('teiheader');
-    const headerfragment = XSLTransform(
-            document.getElementById('tei_header_style').contentDocument,
-            xmlDoc.getElementsByTagName('teiHeader')[0]
-    );
+const render = {
+    menu: function() {
+        const topbuttons = document.getElementById('topbuttons');
+        const storytxt = (state.view === 'story') ? 'view as folios' : 'view as running text';
+
+        topbuttons.querySelector('#storyview').innerHTML = storytxt;
+        topbuttons.style.display = 'block';
+
+    },
     
-    teiheader.innerHTML = '';
-    teiheader.appendChild(headerfragment);
+    header: function(xmlDoc) {
+        const teiheader = document.getElementById('teiheader');
+        const headerfragment = XSLTransform(
+                document.getElementById('tei_header_style').contentDocument,
+                xmlDoc.getElementsByTagName('teiHeader')[0]
+        );
+        
+        teiheader.innerHTML = '';
+        teiheader.appendChild(headerfragment);
+        
+    },
     
-}
+    body: function(xmlDoc) {
+        const HTMLbody = document.getElementById('teibody');
+        const XMLbody = xmlDoc.getElementsByTagName('body')[0];
 
-const renderBody = function(xmlDoc) {
-    const HTMLbody = document.getElementById('teibody');
-    const XMLbody = xmlDoc.getElementsByTagName('body')[0];
+        HTMLbody.innerHTML = '';
 
-    HTMLbody.innerHTML = '';
+        if(state.view === 'story') 
+            render.story(HTMLbody,XMLbody);
+        else
+            render.folios(HTMLbody,XMLbody);
 
-    if(state.view === 'story') 
-        renderBodyStory(HTMLbody,XMLbody);
-    else
-        renderBodyFolios(HTMLbody,XMLbody);
+        if(state.script !== 'iast') {
+            let teibody = document.getElementById('teibody');
+            teibody.parentElement.replaceChild(
+                changeScript(teibody,state.script),
+                teibody);
+        }
+    },
 
-    if(state.script !== 'iast') {
-        let teibody = document.getElementById('teibody');
-        teibody.parentElement.replaceChild(
-            changeScript(teibody,state.script),
-            teibody);
-    }
-}
+    folios: function(HTMLbody,XMLbody) {
+        const bodyXSLT = document.getElementById('tei_body_style').contentDocument;
+        const bodyfragment = XSLTransform(bodyXSLT,XMLbody);
 
-const renderBodyFolios = function(HTMLbody,XMLbody) {
-    const bodyXSLT = document.getElementById('tei_body_style').contentDocument;
-    const bodyfragment = XSLTransform(bodyXSLT,XMLbody);
+        HTMLbody.style.paddingLeft = '0';
+        HTMLbody.style.paddingRight = '0';
+        HTMLbody.style.textAlign = 'left';
+        HTMLbody.appendChild(bodyfragment);
 
-    HTMLbody.style.paddingLeft = '0';
-    HTMLbody.style.paddingRight = '0';
-    HTMLbody.style.textAlign = 'left';
-    HTMLbody.appendChild(bodyfragment);
+        const lasthr = document.createElement('hr');
+        lasthr.setAttribute('data-n','_last');
+        const appendform = document.createRange().createContextualFragment(
+    `<form id = "appendform" lang="en" class="buttoncontainer row">
+    <button type="button" id="appendbutton">new folio</button>
+    </form> `);
+        HTMLbody.appendChild(lasthr);
+        HTMLbody.appendChild(appendform);
+    },
 
-    const lasthr = document.createElement('hr');
-    lasthr.setAttribute('data-n','_last');
-    const appendform = document.createRange().createContextualFragment(
-`<form id = "appendform" lang="en" class="buttoncontainer row">
-<button type="button" id="appendbutton">new folio</button>
-</form> `);
-    HTMLbody.appendChild(lasthr);
-    HTMLbody.appendChild(appendform);
-}
+    story: function(HTMLbody,XMLbody) {
+        const bodyXSLT = document.getElementById('tei_body_style_divs').contentDocument;
+        const bodyfragment = XSLTransform(bodyXSLT,XMLbody);
 
-const renderBodyStory = function(HTMLbody,XMLbody) {
-    const bodyXSLT = document.getElementById('tei_body_style_divs').contentDocument;
-    const bodyfragment = XSLTransform(bodyXSLT,XMLbody);
+        const firsthr = document.createElement('hr');
+        firsthr.setAttribute('data-n','_first');
+        firsthr.style.marginLeft = '-80px';
+        firsthr.style.width = 'calc(100% + 160px)';
+        HTMLbody.appendChild(firsthr);
+        
+        HTMLbody.style.paddingLeft = '80px';
+        HTMLbody.style.paddingRight = '80px';
+        HTMLbody.style.textAlign = 'justify';
+        HTMLbody.appendChild(prettyPrint(bodyfragment));
+    },
 
-    const firsthr = document.createElement('hr');
-    firsthr.setAttribute('data-n','_first');
-    firsthr.style.marginLeft = '-80px';
-    firsthr.style.width = 'calc(100% + 160px)';
-    HTMLbody.appendChild(firsthr);
-    
-    HTMLbody.style.paddingLeft = '80px';
-    HTMLbody.style.paddingRight = '80px';
-    HTMLbody.style.textAlign = 'justify';
-    HTMLbody.appendChild(prettyPrint(bodyfragment));
+    options: function() {
+        const menu_del = document.getElementById('menu_deleted');
+        const menu_add = document.getElementById('menu_added');
+        const menu_lb = document.getElementById('menu_lb');
+        for(const item of [menu_del,menu_add,menu_lb]) {
+            if(!item.checked)
+                menu.showHide({target: item});
+        }
+    },
 }
 
 const saveAs = function() {
-    const file = new Blob([state.xmlTxt], {type: 'text/xml'});
-    const fileURL = URL.createObjectURL(file);
-    const anchor = document.createElement('a');
+    const file = new Blob([state.xmlTxt], {type: 'text/xml;charset=utf-8'});
+    //const fileURL = URL.createObjectURL(file);
+    const fileURL = state.filename; 
+    FileSaver(file,fileURL);
+   /* const anchor = document.createElement('a');
     anchor.href = fileURL;anchor.target = '_blank';
     anchor.download = state.filename;
     document.body.appendChild(anchor);
     anchor.click();
     document.body.removeChild(anchor);
+    */
 }
 
 const getSchema = function() {
@@ -695,7 +723,7 @@ const saveEdit = function() {
         state.xmlTxt = newtxt;
         splitSections(newtxt);
         state.xmlDoc = newXmlDoc;
-        renderBody(newXmlDoc);
+        render.body(newXmlDoc);
     }
 }
 
@@ -711,7 +739,7 @@ const saveEditDiv = function() {
         state.xml_div.parentNode.replaceChild(newdiv,state.xml_div);
         state.xmlTxt  = state.xmlDoc.documentElement.outerHTML;
         splitSections(state.xmlTxt);
-        renderBody(state.xmlDoc);
+        render.body(state.xmlDoc);
     }
 }
 
@@ -856,114 +884,122 @@ const initCodeMirror = function(textarea) {
     });
 }
 
-const initHeaderEditor = function() {
-    const editor = document.getElementById('headereditor');
-    document.getElementById('teiheader').style.display = 'none';
-    const fields = editor.querySelectorAll('input,select,textarea');
-    for(let field of fields) {
-        let xmlEl = state.xmlDoc.querySelector(field.dataset.select);
-        let attr = field.dataset.attr;
-        let prefix = field.dataset.prefix;
-        let value;
+const headerEditor = {
 
-        if(!xmlEl) continue;
+    init: function() {
+        const editor = document.getElementById('headereditor');
+        document.getElementById('teiheader').style.display = 'none';
+        const fields = editor.querySelectorAll('input,select,textarea');
+        for(let field of fields) {
+            let xmlEl = state.xmlDoc.querySelector(field.dataset.select);
+            let attr = field.dataset.attr;
+            let prefix = field.dataset.prefix;
+            let value;
 
-        if(attr)
-            value = xmlEl.getAttribute(attr);
-        else  
-            value = xmlEl.innerHTML;
+            if(!xmlEl) continue;
 
-        //if(!value) continue;
-        if(!value) value = '';
+            if(attr)
+                value = xmlEl.getAttribute(attr);
+            else  
+                value = xmlEl.innerHTML;
 
-        if(field.multiple) {
-            value = value.split(' ');                
-            if(prefix)
-                value = value.map(s => s.replace(newRegExp('^'+prefix),''));
-            let opts = field.querySelectorAll('option');
-            for(let opt of opts) {
-                if(value.includes(opt.value))
-                    opt.selected = true;
+            //if(!value) continue;
+            if(!value) value = '';
+
+            if(field.multiple) {
+                value = value.split(' ');                
+                if(prefix)
+                    value = value.map(s => s.replace(newRegExp('^'+prefix),''));
+                let opts = field.querySelectorAll('option');
+                for(let opt of opts) {
+                    if(value.includes(opt.value))
+                        opt.selected = true;
+                }
             }
+            
+            else {
+                if(prefix)
+                    value = value.replace(new RegExp('^'+prefix),'');
+                field.value = value;
+            }
+        }
+        editor.style.display = 'block';
+        const choices = new Choices(document.getElementById('hd_otherLangs'));
+    },
+
+    destroy: function() {
+        document.getElementById('headereditor').style.display = 'none';
+        document.getElementById('teiheader').style.display = 'block';
+    },
+
+    viafSearch: function(imgEl) {
+        const search_term = imgEl.parentElement.querySelector('input').value;
+        const window_features = "menubar=no,height=500,width=600,centerscreen=yes,scrollbars=yes";
+        window.open('https://viaf.org/viaf/search?query=local.names+all+"'+search_term+'"',"VIAFsearch",window_features);
+    },
+
+    pancangaSearch: function() {
+        const window_features = "menubar=no,height=500,width=600,centerscreen=yes,scrollbars=yes";
+        window.open('http://www.cc.kyoto-su.ac.jp/~yanom/pancanga/',"PancangaSearch",window_features);
+    },
+
+    update: function() {
+        const editor = document.getElementById('headereditor');
+        const fields = editor.querySelectorAll('input,select,textarea');
+        for(let field of fields) {
+            if(!field.validity.valid) {
+                alert('Missing information');
+                return;
+            }
+        }
+        for(let field of fields) {
+            let value = field.type === 'text' ? 
+                field.value.trim() : 
+                field.value;
+            let attr = field.dataset.attr;
+            let prefix = field.dataset.prefix;
+            let xmlEl = state.xmlDoc.querySelector(field.dataset.select);
+            if(!value) {
+                if(!xmlEl) continue;
+                else {
+                    if(attr)
+                        xmlEl.setAttribute(attr,'');
+                    else
+                        xmlEl.innerHTML = '';
+                    continue;
+                }
+            }
+            if(!xmlEl) xmlEl = makeElement(state.xmlDoc,field.dataset.select,'fileDesc');
+            if(field.multiple) {
+                let selected = [];
+                for(let opt of field.querySelectorAll('option[selected]'))
+                    selected.push(opt.value);
+                value = selected.join(' ');
+            }
+            if(prefix) 
+                value = prefix + value;
+            if(attr)
+                xmlEl.setAttribute(attr,value);
+            else  
+                xmlEl.innerHTML = value;
         }
         
-        else {
-            if(prefix)
-                value = value.replace(new RegExp('^'+prefix),'');
-            field.value = value;
-        }
-    }
-    editor.style.display = 'block';
-    const choices = new Choices(document.getElementById('hd_otherLangs'));
-}
-
-const viafSearch = function(imgEl) {
-    const search_term = imgEl.parentElement.querySelector('input').value;
-    const window_features = "menubar=no,height=500,width=600,centerscreen=yes,scrollbars=yes";
-    window.open('https://viaf.org/viaf/search?query=local.names+all+"'+search_term+'"',"VIAFsearch",window_features);
-}
-
-const pancangaSearch = function() {
-    const window_features = "menubar=no,height=500,width=600,centerscreen=yes,scrollbars=yes";
-    window.open('http://www.cc.kyoto-su.ac.jp/~yanom/pancanga/',"PancangaSearch",window_features);
-}
-
-const updateHeader = function() {
-    const editor = document.getElementById('headereditor');
-    const fields = editor.querySelectorAll('input,select,textarea');
-    for(let field of fields) {
-        if(!field.validity.valid) {
-            alert('Missing information');
-            return;
-        }
-    }
-    for(let field of fields) {
-        let value = field.type === 'text' ? 
-            field.value.trim() : 
-            field.value;
-        let attr = field.dataset.attr;
-        let prefix = field.dataset.prefix;
-        let xmlEl = state.xmlDoc.querySelector(field.dataset.select);
-        if(!value) {
-            if(!xmlEl) continue;
-            else {
-                if(attr)
-                    xmlEl.setAttribute(attr,'');
-                else
-                    xmlEl.innerHTML = '';
-                continue;
-            }
-        }
-        if(!xmlEl) xmlEl = makeElement(state.xmlDoc,field.dataset.select,'fileDesc');
-        if(field.multiple) {
-            let selected = [];
-            for(let opt of field.querySelectorAll('option[selected]'))
-                selected.push(opt.value);
-            value = selected.join(' ');
-        }
-        if(prefix) 
-            value = prefix + value;
-        if(attr)
-            xmlEl.setAttribute(attr,value);
-        else  
-            xmlEl.innerHTML = value;
-    }
-    
-    // update title field in titleStmt
-    const titleStmttitle = state.xmlDoc.querySelector('titleStmt > title');
-    const title = state.xmlDoc.querySelector(editor.querySelector('#hd_title').dataset.select).innerHTML;
-    const author = state.xmlDoc.querySelector(editor.querySelector('#hd_author').dataset.select).innerHTML;
-    const idno = state.xmlDoc.querySelector(editor.querySelector('#hd_idno').dataset.select).innerHTML;
-    titleStmttitle.innerHTML = `
-    <title type="main">${idno}</title>
-    <title type="sub">${title} of ${author}</title>
-`;
-    
-    state.xmlTxt = state.xmlDoc.documentElement.outerHTML;
-    splitSections(state.xmlTxt);
-    renderHeader(state.xmlDoc);
-    editor.style.display = 'none';
-    document.getElementById('teiheader').style.display = 'block';
+        // update title field in titleStmt
+        const titleStmttitle = state.xmlDoc.querySelector('titleStmt > title');
+        const title = state.xmlDoc.querySelector(editor.querySelector('#hd_title').dataset.select).innerHTML;
+        const author = state.xmlDoc.querySelector(editor.querySelector('#hd_author').dataset.select).innerHTML;
+        const idno = state.xmlDoc.querySelector(editor.querySelector('#hd_idno').dataset.select).innerHTML;
+        titleStmttitle.innerHTML = `
+        <title type="main">${idno}</title>
+        <title type="sub">${title} of ${author}</title>
+    `;
+        
+        state.xmlTxt = state.xmlDoc.documentElement.outerHTML;
+        splitSections(state.xmlTxt);
+        render.header(state.xmlDoc);
+        editor.style.display = 'none';
+        document.getElementById('teiheader').style.display = 'block';
+    },
 }
 
 const makeElement = function(xmlDoc,selector,par) {
@@ -982,100 +1018,134 @@ const makeElement = function(xmlDoc,selector,par) {
     return par_el;
 }
 
-const destroyHeaderEditor = function() {
-    document.getElementById('headereditor').style.display = 'none';
-    document.getElementById('teiheader').style.display = 'block';
-}
-
-const menuMouseover = function(e) {
-    const targ = e.target.classList.contains('menubox') ?
-        e.target :
-        e.target.closest(".menubox");
-    if(targ) {
-        targ.querySelector('ul').style.display = 'block';
-        targ.classList.add('open');
-    }
-}
-
-const menuMouseout = function(e) {
-    const targ = e.target.classList.contains('menubox') ?
-        e.target :
-        e.target.closest(".menubox");
-    if(targ) {
-        targ.querySelector('ul').style.display = 'none';
-        targ.classList.remove('open');
-    }
-}
-
-const scriptSelect = function(e) {
-    if(e.target.tagName !== 'LI') return;
-    const script = e.target.dataset.value;
-    const scriptlist = document.querySelectorAll('#scriptselect li');
-    for(const li of scriptlist) {
-        if(li.dataset.value === script)
-            li.classList.add('selected');
-        else
-            li.classList.remove('selected');
-    }
-    document.querySelector('#scriptselect .heading').textContent = e.target.textContent;
-
-    const teibody = document.getElementById('teibody');
-    const headerdiv = document.getElementById('teiheader');
-    const middle = inViewport(headerdiv) ?
-        null :
-        findMiddleElement();
-
-    state.script = script;
-
-    renderBody(state.xmlDoc);
-    
-    setViewPos(middle);
-}
-
-const inViewport = function(el) {
-    const rect = el.getBoundingClientRect();
-    return el.top >= 0 && el.bottom <= window.innerHeight;
-}
-
-const findMiddleElement = function() {
-    const lbs = (state.view === 'folio') ? 
-        document.querySelectorAll('.lb') :
-        document.querySelectorAll('.lb-minimal');
-    const midheight = window.innerHeight/2;
-    var lastdist;
-    var currdist = null;
-    var lastel;
-    var midel;
-    for(let i=0;i<lbs.length;i++) {
-        const lb = lbs[i];
-        const rect = lb.getBoundingClientRect();
-        const viewportoffset = rect.top;
-        if(viewportoffset < 0) continue;
-        lastdist = currdist;
-        currdist = midheight - viewportoffset;
-        if(lastdist != null && Math.abs(currdist) > Math.abs(lastdist)) {
-            midel = i-1;
-            break;
+const menu = {
+    mouseover: function(e) {
+        const targ = e.target.classList.contains('menubox') ?
+            e.target :
+            e.target.closest(".menubox");
+        if(targ) {
+            targ.querySelector('ul').style.display = 'block';
+            targ.classList.add('open');
         }
-    }
-    if(midel === null)
-        midel = lbs.length-1;
-    return [midel,lastdist];
+    },
 
+    mouseout: function(e) {
+        const targ = e.target.classList.contains('menubox') ?
+            e.target :
+            e.target.closest(".menubox");
+        if(targ) {
+            targ.querySelector('ul').style.display = 'none';
+            targ.classList.remove('open');
+        }
+    },
+
+    scriptSelect: function(e) {
+        if(e.target.tagName !== 'LI') return;
+        const script = e.target.dataset.value;
+        const scriptlist = document.querySelectorAll('#scriptselect li');
+        for(const li of scriptlist) {
+            if(li.dataset.value === script)
+                li.classList.add('selected');
+            else
+                li.classList.remove('selected');
+        }
+        document.querySelector('#scriptselect .heading').textContent = e.target.textContent;
+
+        const teibody = document.getElementById('teibody');
+        const middle = viewPos.findPageMiddle();
+
+        state.script = script;
+
+        render.body(state.xmlDoc);
+        
+        viewPos.set(middle);
+    },
+
+    widthChange: function(e) {
+        const width = e.target.value + '%';
+        const teibody = document.getElementById('teibody');
+        const middle = viewPos.findPageMiddle();
+        teibody.style.width = width;
+        teibody.style.marginLeft = (e.target.value > 100) ?
+            (100 - e.target.value)/2 + '%' :
+            teibody.style.marginLeft = 0;
+        viewPos.set(middle);
+    },
+
+    showHide: function(e) {
+        const str = e.target.dataset.select;
+        const checked = e.target.checked;
+        const middle = viewPos.findPageMiddle();
+        const els = document.querySelectorAll(str);
+        if(checked)
+            for(const el of els) {
+                el.style.visibility = 'visible';
+                el.style.width = '';
+            }
+        else
+            for(const el of els) {
+                el.style.visibility = 'hidden';
+                el.style.width = '0px';
+            }
+        viewPos.set(middle);
+    },
 }
 
-const getOffsetTop = function(el) {
-    return el.getBoundingClientRect().top + window.pageYOffset;
-}
+const viewPos = {
 
-const setViewPos = function(middle) {
-    if(middle === null)
-        return;
-    const midel = (state.view === 'folio') ?
-        document.querySelectorAll('.lb')[middle[0]] :
-        document.querySelectorAll('.lb-minimal')[middle[0]];
-    const dist = getOffsetTop(midel) + middle[1] - window.innerHeight/2;
-    window.scrollTo(0,dist);
+    findPageMiddle: function() {
+        const headerdiv = document.getElementById('teiheader');
+        const middle = viewPos.inViewport(headerdiv) ?
+            null :
+            viewPos.findMiddleElement();
+        return middle;
+    },
+
+    inViewport: function(el) {
+        const rect = el.getBoundingClientRect();
+        return el.top >= 0 && el.bottom <= window.innerHeight;
+    },
+
+    findMiddleElement: function() {
+        const lbs = (state.view === 'folio') ? 
+            document.querySelectorAll('.lb') :
+            document.querySelectorAll('.lb-minimal');
+        const midheight = window.innerHeight/2;
+        var lastdist;
+        var currdist = null;
+        var lastel;
+        var midel;
+        for(let i=0;i<lbs.length;i++) {
+            const lb = lbs[i];
+            const rect = lb.getBoundingClientRect();
+            const viewportoffset = rect.top;
+            if(viewportoffset < 0) continue;
+            lastdist = currdist;
+            currdist = midheight - viewportoffset;
+            if(lastdist != null && Math.abs(currdist) > Math.abs(lastdist)) {
+                midel = i-1;
+                break;
+            }
+        }
+        if(midel === null)
+            midel = lbs.length-1;
+        return [midel,lastdist];
+
+    },
+
+    getOffsetTop: function(el) {
+        return el.getBoundingClientRect().top + window.pageYOffset;
+    },
+
+    set: function(middle) {
+        if(middle === null)
+            return;
+        const midel = (state.view === 'folio') ?
+            document.querySelectorAll('.lb')[middle[0]] :
+            document.querySelectorAll('.lb-minimal')[middle[0]];
+        const dist = viewPos.getOffsetTop(midel) + middle[1] - window.innerHeight/2;
+        window.scrollTo(0,dist);
+    },
 }
 
 const to = {

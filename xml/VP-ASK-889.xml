@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<?xml-stylesheet href="https://www.dropbox.com/s/lxwavyvh5farc62/mss.css?dl=1" type="text/css" ?>
+
+<TEI version="5.0" xmlns="http://www.tei-c.org/ns/1.0">
+<teiHeader>
+  <fileDesc>
+    <titleStmt>
+      <title>Vetālapañcaviṃśati</title>
+      <author>Śivadāsa-bhaṭṭa</author>
+    </titleStmt>
+    <publicationStmt></publicationStmt>
+    <sourceDesc>
+      <msDesc>
+        <msIdentifier>
+          <repository>Asiatic Society, Kolkata</repository>
+          <settlement>Kolkata</settlement>
+          <idno>G889</idno>
+        </msIdentifier>
+        <msContents></msContents>
+        <physDesc>60 folios, Devanagari, paper, 29x14.5cm, complete </physDesc>
+        <history>
+          <origPlace></origPlace>
+          <origDate when="1840-03-26">SV 1896, Cai, K, 8, Bṛhaspativāra (Thursday)</origDate>
+        </history>
+      </msDesc>
+    </sourceDesc>
+  </fileDesc>
+</teiHeader>
+<text>
+<body>
+
+<pb n="Xr" facs=""/>
+  <fw type="header" place="top left"></fw>
+  <fw type="pageNum" place="left margin"></fw>
+  <lb n="1"/>
+  <lb n="2"/>
+  <lb n="3"/>
+  <lb n="4"/>
+  <lb n="5"/>
+  <lb n="6"/>
+  <lb n="7"/>
+  <lb n="8"/>
+  <lb n="9"/>
+  <lb n="10"/>
+  <lb n="11"/>
+  <lb n="12"/>
+  <lb n="13"/>
+  <fw type="footer" place="bottom right"></fw>
+  <fw type="pageNum" place="right margin"></fw>
+
+<pb n="1v" facs="4a"/>
+  <fw type="header" place="top left">vai. paṃ</fw>
+  <fw type="pageNum" place="left margin">1</fw>
+  <lb n="1"/><div type="frame" id="Ś0" num="0" title="vaitālotpatti-kathānaka" city="" king="">oṃ svasti śrīgaṇeśāya namaḥ śrīgurubho namo namaḥ praṇamya devaṃ śirasā vināyakaṃ smṛtyaiva |
+  <lb n="2"/>vighnāni vināśayaṃtaṃ kathām imāṃ viśvavinodahetave karomi puṇyāṃ dhiṣaṇābhivardhinī 1 |
+  <lb n="3"/>atha kaś cid buddhinidhānaḥ śrotṝṇāṃ sukhavivṛddhihetave paropakārakaraṇaśīlo viśālabuddhiśi-
+  <lb n="4"/>-vadāsabhaṭṭeti nāma paṃḍitaḥ svakīyabuddhiviśālatāṃ darśayan vaitālakathānakaṃ karttum icchus tāva-
+  <lb n="5"/>-d vaitālotpattikathānakam ārabhata āsīd dakṣiṇasyāṃ diśi koṃkaṇadeśe dharmādhiko nāma dvija-\
+  <lb n="6"/>-varaḥ sa ca brahmakarmanirato divāniśaṃ svīyakarmaṇi prātarutthānaśaucācārakuśapuṣpāvacaya-
+  <lb n="7"/>-nasnānasaṃdhyājapahomadevārcanabalikarmapitṛkarmātithipūjanavidhipūrvakabhojanaśāstrāva-
+  <lb n="8"/>-lokanādhyayanādhyāpanapaṭhanapāṭhanadānapratigrahādyākhye pratidinaṃ vartamāna evāsti paraṃ tu ta-
+  <lb n="9"/>-sya kenāpi gaṃdena daivena saṃtatir anvayadharmayaśovivardhinī puṇyaśīlā ''khyātakīrtir nābhavat
+  <lb n="10"/>sa ca tan<unclear reason="worn">mano</unclear>rathair eva kālaṃ nayan vṛddhatvam agāt atha ca kena cit tasya purvajanmārjitapuṇyapuṃjena
+  <lb n="11"/>preritaḥ khyātaśīlo nāma digaṃbaro maṃtrataṃtrayaṃtrasādhana sanniṣṭā 'nekopāsanāparoyogiva-\
+  <lb n="12"/>ro bhikṣāmiṣeṇa jagatyāṃ bhraman tasyālaye svayam evājagāma atha ca mahijapatnīṃ ciṃtāparivaśāṃ
+  <lb n="13"/>samavalokā 'pracchat devi kiṃ ciṃtayasi tayoktaṃ macciṃtayā tava kiṃ tenoktaṃ ...
+  <fw type="pageNum" place="right margin">1</fw>
+
+  <pb n="2r" facs="4b"/>
+  <fw type="header" place="top left"></fw>
+  <fw type="pageNum" place="left margin"></fw>
+  <lb n="1"/>
+  <lb n="2"/>
+  <lb n="3"/>
+  <lb n="4"/>
+  <lb n="5"/>
+  <lb n="6"/>
+  <lb n="7"/>
+  <lb n="8"/>
+  <lb n="9"/>
+  <lb n="10"/>
+  <lb n="11"/>
+  <lb n="12"/>
+  <lb n="13"/>
+  <fw type="footer" place="bottom right"></fw>
+  <fw type="pageNum" place="right margin"></fw>
+
+    <pb n="2v" facs="5a"/>
+  <fw type="header" place="top left"></fw>
+  <fw type="pageNum" place="left margin"></fw>
+  <lb n="1"/>
+  <lb n="2"/>
+  <lb n="3"/>
+  <lb n="4"/>
+  <lb n="5"/>
+  <lb n="6"/>
+  <lb n="7"/>
+  <lb n="8"/>
+  <lb n="9"/>
+  <lb n="10"/>
+  <lb n="11"/>
+  <lb n="12"/>
+  <lb n="13"/>
+  <fw type="footer" place="bottom right"></fw>
+  <fw type="pageNum" place="right margin"></fw>
+
+
+
+
+
+
+ <pb n="31r" facs="33b"/>
+  <lb n="1"/>...</div>
+  <lb n="2"/><div type="story" id="Ś9" num="9" title="" city="sadanapura" king="madanavīra"><div type="verse" id="Ś9-1">praṇamya parayā bhaktyā haṃsayānāṃ sarasvatīṃ yasyāḥ prasādam āsādya kariṣyāmi kathām imāṃ 1 </div>punar vaitā-
+  <lb n="3"/>-lam ādāya yadā nṛpaḥ pratasthe tadā vaitālenoktaṃ rājann asti sadanapuraṃ nāma nagaraṃ tatra madanavīro nāma \
+  <lb n="4"/>rājā tatra haridatto nāma vaṇik tasya sutā madanasenā sā ca vasaṃtotsavena sakhībhiḥ saha krīḍā-\
+  <lb n="5"/>-rthaṃ udyāne gatā itaś ca somadattasuto dharmadatto nāma vaṇik mitreṇa saha tatrāgataḥ tāṃ dṛṣṭvā madana-
+  <lb n="6"/>-parivaśo jātaḥ yady eṣā mama bhāryā bhavet tato mama saphalaṃ jīvitaṃ tataḥ sthānād gṛhe gatasya viraha-\
+  <lb n="7"/>-vyathāpīḍitasya katham api rātrir ākrāṃtā prātas tatrārāme gataḥ tatraiva sā ekākinī dṛṣṭā gṛhī-
+  <lb n="8"/>-tvā dakṣiṇakare 'vocat yadi me bhāryā na bhaviṣyasi tadā tavopari prāṇatyāgam ahaṃ kariṣye yataḥ \
+  <lb n="9"/><div type="verse" id="Ś9-2">bāle lalāmalekheyaṃ bhāle bhallī virājate bhrūlatācāpam ākṛṣya na jāne kaṃ haniṣyasi 2 </div> <div type="verse" id="Ś9-3"> apūrvo \
+  <lb n="10"/>yaṃ dhanurvedo manmathasya mahātmanaḥ śarīram akṣayaṃ kṛtvā bhinaty aṃtargataṃ manaḥ 3 </div> <div type="verse" id="Ś9-3.8"> deḍaburāva luhasa-\
+  <lb n="11"/> -ü jaṇa vippaḍavo laü loḍa uccaṃtaü parimāṇajayaï jaṃ bhāvaï ta hoü 4 </div> tayoktaṃ <div type="verse" id="Ś9-4"> lajjajaya jeṇa ja-
+  <lb n="12"/>-ṇo maïlajjī yetiya kulakkamo jeṇa taṃ na karaṃti kulīṇā jāvakaṃ buddhayaḥ prāṇāḥ 5  </div> nareṇo-\
+  <lb n="13"/>-ktaṃ bho bhadre evaṃ mā kuru tayoktaṃ anichatīm abhilaṣitavatāṃ yuṣmākaṃ pāpaṃ bhaviṣyati tenoktaṃ
+
+
+ <pb n="31v" facs="34a"/>
+  <fw type="header" place="top left">vai. paṃ</fw>
+  <fw type="pageNum" place="left margin">31</fw>
+  <lb n="1"/><div type="verse" id="Ś9-5">kim u kuvalayanetrāḥ saṃti no nākapṛṣṭe tridaśapatir ahilyāṃ tāpasīṃ yat siṣeve hṛdayatṛṇakuṭīre
+  <lb n="2"/>dahyamāne smarāgnāv ucitam anucitaṃ vā vetti kaḥ paṃḍito pi 6 </div> evaṃ āturādyamāne tasmin sā strī dha-
+  <lb n="3"/>-rmadattaṃ prati pratijñāṃ kṛtavatī yadā mama vivāho bhaviṣyati tadā prathamabhoga<unclear reason="worn">__</unclear>tava samīpe āgatā-
+  <lb n="4"/>-smi paścād bhartrā saha saṃbhogaṃ kariṣyāmi iti ratyarthe pratijñāṃ kārayitvā muktā sā nijamaṃdare gatā sa \
+  <lb n="5"/>dharmadatto pi gṛhaṃ gataḥ paṃcama divase vivāhaḥ saṃjātaḥ vivāhitā satī niśīthasamaye yāvad bhartā-\
+  <lb n="6"/>-liṃganādikaṃ karoti tāvat tayā nivāritaḥ tenoktaṃ kena kāraṇena tvaṃ māṃ nābhilakhasi tayoktaṃ śrū-
+  <lb n="7"/>-yatāṃ madvacanaṃ kanyātve yad vṛttāṃtam abhūt tat sarvaṃ bhartur agre niveditavatī bhartroktaṃ yadi satyaṃ tarhi gaccha ta-
+  <lb n="8"/>-sya pārśvād yāvad gṛhād gachati tāvan mārge caureṇa dṛṣṭā harṣitaś cauraś ciṃtitavān asyā vastrāṇy ābhara-\
+  <lb n="9"/>-ṇāni gṛhṇāmīti kṛtvā tām avadat <div type="verse" id="Ś9-6"> kva prasthitāsi karabhoru gate niśīthe prāṇādhipo vasati ya-
+  <lb n="10"/>-tra manḥpriyo me ekākinī vada bibheṣi kathaṃ na bāle kiṃ nāsti puṣpakaśaro madanaḥ sahāyaḥ \
+  <lb n="11"/>7 </div> caureṇoktaṃ tiṣṭa bhūṣaṇādīni dehi itarathā prahartāsmi atha caurasyāpi pūrvavṛttāṃtaṃ praṇītaṃ cau-
+  <lb n="12"/>rāya kim artham uktaṃ tatheti cet tatrāha manasi ca ciṃtitaṃ tayā tasmai pūrva samāgama datvā kathaṃ śrṃgārabhaṃgaḥ
+  <lb n="13"/>kriyate yataḥ <div type="verse" id="Ś9-9"> vastrahīnam alaṃkāraṃ ghṛtahīnaṃ ca bhojanaṃ svarahīnaṃ ca gāṃdharva bhāvahīnaṃ ca maithunaṃ vṛthā
+  <fw type="pageNum" place="right margin">31</fw>
+
+<pb n="32r" facs="34b"/>
+  <lb n="1"/>bhavati tat sarvaṃ śaucahīnaṃ kriyā yathā </div> vicāryya ca tathā caurāya proktaṃ he caura bhūṣaṇādidānaheto-
+  <lb n="2"/>-s tava samīpe vyāvṛtyāgamiṣyāmi ratyarthe pratijñā vṛthā mā bhavatu atas tvaṃ māṃ muṃca yadā muktvā caureṇa
+  <lb n="3"/>tadā gatā yatra dharmadattas tiṣṭati tatraiva sā madanasenā tenoktaṃ <div type="verse" id="Ś9-7"> yakṣiṇī vātha gaṃdharvī kinnarī vā sureśva-
+  <lb n="4"/>-rī kāma tvaṃ mama saṃnnidhau devi kutaḥ sthānāt samāgatā 8 </div> tayoktaṃ vivāhitādyaiva samāgatāsmi ya-\
+  <lb n="5"/>-d rocate te mama tat kuruṣva tenoktaṃ idaṃ vṛtāṃtaṃ tvayā svabhartur agre kathitaṃ kiṃ na vā na hi tayoktaṃ kathitaṃ \
+  <lb n="6"/>sarvam apy evaṃ  atha tena nijacitte ciṃtitaṃ <div type="verse" id="Ś9-10"> raktā haraṃti sarvasvaṃ prāṇān api virāgitāḥ aho rāge
+  <lb n="7"/>virāge ca kaṣṭaṃ kaṣṭaṃ khalu striyaḥ 10 </div> <div type="verse" id="Ś9-12"> kāmyamānāḥ kāmam aṃtaḥ bahir vṛtyā manoramāḥ guṃjāphalani-
+  <lb n="8"/>bhāḥ satyaṃ svabhāvād eva yoṣitaḥ 11 </div> <div type="verse" id="Ś9-15"> prajñāvinayasaṃskāraṃ vidvāsam api maṃtriṇaṃ chalaṃti kṛta vithā-\
+  <lb n="9"/>-sam etā yoṣitpiśācikāḥ 12 </div> <div type="verse" id="Ś9-15.2"> utamā madhyamāś caiva adhamā adhamādhamāḥ striyo prema tathā lobho
+  <lb n="10"/>dravyādis tāḍanaṃ pṛthak 13 </div> <div type="verse" id="Ś9-16"> catvāro nirmitāḥ pūrvam upāyās tena vedhasā na sṛṣṭaḥ paṃcamaḥ ko pi gṛ-
+  <lb n="11"/>-hyaṃte yena yoṣitaḥ 14 </div> <div type="verse" id="Ś9-16.2"> surasaratīre viḍavo chāyā kuṇaṃti diṃtiphalatṛṇa tāhaṃ vīṣaṇa hi mūlaṃ
+  <lb n="12"/>paḍavanne ichā mahilāṇo 15 </div> <div type="verse" id="Ś9-14"> tathā ca yad aṃtas tan na jihvāyāṃ na tad bahiḥ yad bahis tan na kurvaṃti vici-
+  <lb n="13"/>-tracaritāḥ siyāḥ 16 </div> evaṃ bhaṇitvā visarjitā tena nāham idānīṃ parastrī sevāṃ kariṣyāmi te-\
+
+<pb n="32v" facs="35a"/>
+  <fw type="header" place="top left">ve. paṃ</fw>
+  <fw type="pageNum" place="left margin">32</fw>
+  <lb n="1"/>-na bhaginīṃ tāṃ sthāpya mā suratasukhaṃ kṛtaṃ tato nivṛtā satī paścān muktakalitaś cauro yatra tiṣṭa-
+  <lb n="2"/>-ti tatra gatā sā caurapārṣve pi kathitaṃ sarvam eva vṛttāṃtaṃ caureṇāpi praśaṃsayatā sā madanasenā \
+  <lb n="3"/>strī muktā samāyātā bharttuḥ samīpe tena ca sarvam eva vṛttāṃtaṃ śrutvā snehenā ''liṃganādikaṃ kṛtaṃ \
+  <lb n="4"/>uktaṃ ca <div type="verse" id="Ś9-17"> kokilānāṃ svaraṃ rūpaṃ nārīrūpaṃ pativrataṃ vidyā rūpaṃ kurūpāṇāṃ kṣamā rūpaṃ tapasvināṃ 17 </div>
+  <lb n="5"/>sāṣṭāṃgaṃ bhogaṃ kṛtvā tatra bhartṛsamīpe sukhaṃ vilasati sma etat kathānakaṃ kathayitvā vaitālenoktaṃ
+  <lb n="6"/>rājan trayāṇāṃ madhye katamaḥ pradhānaḥ rājñoktaṃ cauraḥ pradhānaḥ vaitālenoktaṃ kena kāraṇena rā-
+  <lb n="7"/>-jñoktaṃ yat svapatinā muktā tad anyacittā jñātā tena kār<del rend="strikethrough">e</del><add>a</add>ṇena mutkalitā parapuruṣeṇa muktā tad rā-
+  <lb n="8"/>-jadaṃḍabhayāt  ataś cauramocane kim api kāraṇaṃ nāsti ataś cauraḥ pradhānaḥ evaṃ śrutvā gato vaitālaḥ śiṃśipādrume || iti śrīśivadāsabhaṭṭaviracitāyāṃ vaitālapaṃcaviṃśakāyāṃ navamaṃ kathānakaṃ
+  <lb n="9"/>samāptaṃ 9 || </div>
+  <lb n="10"/>
+  <lb n="11"/>
+  <lb n="12"/>
+  <lb n="13"/>
+  <fw type="footer" place="bottom right"></fw>
+  <fw type="pageNum" place="right margin"></fw>
+
+
+...
+
+
+<pb n="46r" facs="48b"/>
+  <lb n="1"/>
+  <lb n="2"/>...<div type="story" id="Ś17" num="17" title="" city="ujjayinī" king="mahāsena"><div type="verse" id="Ś17-1.2"> śatavarṇālaṃ-\
+  <lb n="3"/>-kāre sarasati samastavāṅgmayādhāre kamalajamānasanirate mṛgāṃkadhavale namas tubhyaṃ 1 </div> atha 
+  <lb n="4"/>punā rājā vaitālam ādāya yadā pracalitas tadā vaitālo nyat kathānakam uktavān bho vikrama nareśva-
+  <lb n="5"/>-ra asti ujjayinyāṃ nāma nagare mahāseno rājā tatra devaśarmā brāhmaṇa putro guṇādhāro 'vasat sa dyū-
+  <lb n="6"/>-tavyasanopahataḥ sarvasvam eva hārayati sma atha kuṭuṃbena nissāro niḥsāritaḥ anyadeśe śūnyadeva-
+  <lb n="7"/>-gṛhe upaviṣṭaḥ tatra tena yogī namaskṛtaḥ yoginoktaṃ kas tvaṃ tenoktaṃ brāhmaṇo haṃ bubhukṣitaḥ yo-\
+  <lb n="8"/>-ginoktaṃ kapālodanaṃ gṛhītvā bhuṃkṣva tenoktaṃ kapālabhojanaṃ na bhuṃjāmi yoginā smṛtā vidya-
+  <lb n="9"/>-yā samāyātā vaṭayakṣiṇī prāha bhagavann ādeśaṃ dehi yoginoktaṃ asya viprasya bhavyaṃ bhojanaṃ de-\
+  <lb n="10"/>-hi iti śrutvā divyabhavanaṃ racitaṃ tatra taṃ nītvā bhojanaṃ vilepanaṃ tāṃbūlapuṣpādibhir mahatī prati-
+  <lb n="11"/>-patiḥ kṛtā rātrau saha tayā krīḍā kṛtā prabhāte devī gatā sa ca brāhmaṇa ekākī jātaḥ yogi-
+  <lb n="12"/>-noktaṃ bho kim udvigno dṛśyase vipreṇoktaṃ yakṣiṇīviyogena mariṣye yoginoktaṃ sā devī vi-
+  <lb n="13"/>-<unclear reason="worn">dyābalenāgachati</unclear> brāhmaṇenoktaṃ mama vidyāṃ dehi yoginoktaṃ tarhi maṃtraṃ gṛhītvā jalamadhye
+
+<pb n="46v" facs="49"/>
+  <fw type="header" place="top left">ve. paṃ.</fw>
+  <fw type="pageNum" place="left margin">46</fw>
+  <lb n="1"/>ekacittaḥ sādhaya tena tathā kṛtaṃ sarvaṃ māyāmayaṃ paśyati niḥsṛto jalāt yogino gre kathitaṃ pra-\
+  <lb n="2"/>-bho prāptaṃ na kiṃ cit yoginoktaṃ agnipraveśaṃ kuru tenoktaṃ kuṭuṃbasya militvā sādhayiṣye evaṃ bhaṇi-
+  <lb n="3"/>-tvā gataḥ kuṭaṃbagale lagitvā roditum ārabdhaṃ pitroktaṃ vatsa etāvaṃti dināni kutra sthitaḥ kathaṃ gṛ-
+  <lb n="4"/>-haṃ vismṛtaṃ yataḥ <div type="verse" id="Ś17-2" num="" source=""> pativratā dharmaśīlā sadācārakriyāratā tasyāś ca varjanāt putra bhrūṇahā sa bha-
+  <lb n="5"/>-ven naraḥ 1 </div> <div type="verse" id="Ś17-3" num="" source="CM82"> na gṛhasthāt paro dharmo na sukhaṃ ca gṛhāt paraṃ na tīrthaṃ pitṛmātṛbhyo na devo paramātmanaḥ | </div> 
+  <lb n="6"/><div type="verse" id="Ś17-4" num="" source=""> mātaraṃ pitaraṃ caiva yo niṃdaṃti narādhamāḥ na teṣām ūrdhvagamanam evam āha pitāmahaḥ 3 </div> <div type="verse" id="Ś17-5" num="" source="SMS9641"> kāmārttāṃ yaḥ 
+  <lb n="7"/>striyaṃ dīnāṃ prārthayaṃtiṃ punaḥ punaḥ bhajamānāṃ na bhuṃjīta so pi cāṃḍāla ucyate 4 </div> putreṇoktaṃ <div type="verse" id="Ś17-7" num="" source="SMS9248"> kasya \
+  <lb n="8"/>mātā pitā kasya kasya bhāryā suto thavā jāte jāte thya jaṃtūnāṃ bhaviṣyati paro 'paraḥ 5 </div> <div type="verse" id="Ś17-11" num="" source=""> dehaḥ saṃśo-
+  <lb n="9"/>-dhyamāno pi paṃcagavyakuśāṃbubhiḥ ghṛṣyamāṇa ivāṃgāro nirmalatvaṃ na gacchati 6 </div> <div type="verse" id="Ś17-12" num="" source=""> srotāṃsi sata-
+  <lb n="10"/>-taṃ yasya pravahaṃti girer iva kaphamūtrapurīṣādyaiḥ sa dehaḥ śudhyate kathaṃ 7 </div> <div type="verse" id="Ś17-13" num="" source="BhŚ375"> asau kriyāvatāṃ devo \
+  <lb n="11"/>divi devo manīṣiṇāṃ pratimā svalpabuddhīnāṃ yogināṃ hṛdaye hariḥ 8 </div> <div type="verse" id="Ś17-13.2"> garbhavāse samutpatir na bha-\
+  <lb n="12"/>-viṣyaty alaṃpaṭe jāto mṛtaḥ punaś cāhaṃ  punar jātaḥ punar mṛtaḥ 9 </div> tat mayā yogaśāstram abhyastaṃ nā-
+  <lb n="13"/>-haṃ gṛhāśramaṃ kariṣyāmi vidyābalena saṃsāre punaḥ punar gamanāgamanaṃ nivārayiṣyāmi evaṃ katha-
+  <fw type="pageNum" place="right margin">46</fw>
+
+<pb n="47r" facs="50"/>
+  <lb n="1"/>-yitvā yoginaḥ pārśve prajvālito vahnis tanmadhye praviśya smṛtāpi nāgatā devī yadā tadā kathi-
+  <lb n="2"/>-taṃ punar yogine tena nāgatā devīti kathām uktvā vaitālenoktaṃ rājan kena kāraṇena vaṭayakṣi-\
+  <lb n="3"/>-ṇī na samāyātā rājñoktaṃ bho vaitāla sādhakaṃ dvidhācittaṃ jñātvā nāgatā yataḥ <div type="verse" id="Ś17-14"> labhed ekamanāḥ 
+  <lb n="4"/>siddhiṃ dvidhācitto vinaśyati </div> yathā <div type="verse" id="Ś17-15" num="" source="SMSVIII"> tyāgena hīnasya kuto sti kīrtiḥ dānena hīnasya kuto sti la-
+  <lb n="5"/>-kṣmīḥ jñānena hīnasya kuto sti siddhiḥ satyena hīnasya gatiḥ kutaḥ syāt 10 </div> vaitālenoktaṃ kathaṃ 
+  <lb n="6"/>sādhako dvidhācittaḥ rājñoktaṃ maṃtram asādhayitvā kuṭaṃbapārśve gataḥ yogināpi dvidhācittasya 
+  <lb n="7"/>kathaṃ vidyā dattā 'nena hetunā kupitā guruśiṣyopari devī nāgatā iti śrutvā gato vaitā-\
+  <lb n="8"/>-laḥ rājāpi tatraiva gataḥ ||  || iti śrīśivadāsabhaṭṭaviracitāyāṃ vaitālapaṃcaviṃśakāyāṃ 
+  <lb n="9"/>saptadaśa kathānakaṃ samāptam || 17 </div>
+  <lb n="10"/>
+  <lb n="11"/>
+  <lb n="12"/>
+  <lb n="13"/>
+  
+...
+
+ 
+<pb n="60v" facs="62b"/>
+  <fw type="header" place="top left">vai. paṃ.</fw>
+  <fw type="pageNum" place="left margin">60</fw>
+  <lb n="1"/>prāpnuvaṃtaṃ ativāhikaśarīreṇa nṛpakṛtatannimitapuṇyapuṃjena devatvaṃ saṃprāpya nṛpakṛta upakā-
+  <lb n="2"/>-raṃ manasi nidhāya pratyupakāraṃ kartum ichan nṛpam eva sanmijatvena gaṇayan vikramasenaprabhāve-
+  <lb n="3"/>-nāmarāvatyātma tiṣṭhat prājño vā yadi vā mūrkho vṛddho vāpy atha vā śiśuḥ ya imāṃ veti saka-\
+  <lb n="4"/>-lāṃ sa bhavad buddhimān dṛḍhaḥ 1 iti śrīśivadāsabhaṭṭaviracitāyāṃ vaitālapaṃcaviṃśakāyāṃ paṃ-
+  <lb n="5"/>-caviṃśatimaṃ kathānakaṃ samāptaṃ 25 || saṃvat 1896 caitra vadi aṣṭamyāṃ bṛ<unclear reason="worn">haspa</unclear>tivā-
+  <lb n="6"/>-ra pustaka vaitālapaṃcaviṃśati  samāptaṃ || || || || 
+  <fw type="footer" place="bottom right">oṃ</fw>
+  <fw type="pageNum" place="right margin">60</fw>
+
+
+
+
+
+
+
+
+ 
+
+
+<div type="story" id="" num="" title="" city="" king="">
+<subst type="transpose"><del></del><add></add></subst>
+</div>
+
+</body>
+</text>
+</TEI>

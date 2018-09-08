@@ -1,0 +1,145 @@
+TEI{
+	font-family: "Cambria", serif;
+	font-size: 12pt;
+	margin: 8pt;
+	display: block;
+}
+
+teiHeader * {
+	display: block;
+}
+
+teiHeader titleStmt title{
+	font-size: 115%;
+}
+
+teiHeader title {
+	font-weight: bold;
+}
+
+teiHeader publicationStmt, teiHeader sourceDesc{
+	font-size: 85%;
+}
+
+text, text *{
+	z-index: 1;
+}
+
+body{
+	line-height: 200%;
+}
+
+div[type="verse"] {
+	color: darkblue;
+}
+
+pb{
+	display: block;
+	width: 100%;
+	margin-top: 7pt;
+	border-top: 1pt grey ridge;
+}
+
+pb:after {
+	display: block;
+	content: attr(n);
+	font-weight: bold;
+	font-size: 110%;
+	text-decoration: underline;
+	padding-top: 1pt;
+	padding-bottom: 1pt;
+}
+
+fw[type='pageNum']:before{
+	content: "(page num., " attr(place) "):\00a0" !important;
+}
+
+fw:before{
+	display: inline-block;
+	font-size: 85%;
+	font-style: italic;
+	margin-left: 5pt;
+	margin-bottom: 2pt;
+	content: "(" attr(type) ", " attr(place) "):\00a0";
+}
+
+
+
+fw{
+	display: block;
+}
+
+lb:before{
+	white-space: pre;
+	content: "\A";
+}
+
+body+lb:before, pb+lb:before, fw+lb:before{
+	content: "";
+}
+
+l:before, lb:after{
+	display: inline-block;
+	width: 12pt;
+	font-size: 55%;
+	text-align: center;
+	vertical-align: top;
+	content: attr(n) "\00a0";
+}
+
+l{
+	display: block;
+}
+
+add[place='above']{
+	font-size:75%;
+	position: absolute;
+	margin-top: -10pt;
+	margin-left: -3pt;
+	z-index: 1;
+}
+
+del, sic{
+	color: #A00000;
+}
+
+del{
+		text-decoration: line-through;
+}
+
+gap, gap[quantity='1']{
+	display: inline-block;
+	width: 0.5em;
+}
+
+gap[quantity="2"]{
+	width: 1em;
+}
+
+gap[quantity="3"]{
+	width: 1.5em;
+}
+
+gap[quantity="4"], gap[quantity="5"], gap[quantity="6"], gap[quantity="7"], gap[quantity="8"] {
+	width: 2em;
+}
+
+sic+corr{
+	font-style: italic;
+}
+
+sic+corr:before{
+	content: '(';
+}
+
+sic+corr:after{
+	content: ')';
+}
+
+add, corr{
+	color: #006400;
+}
+
+supplied{
+	color: darkblue;
+}

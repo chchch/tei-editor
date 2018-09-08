@@ -1,0 +1,76 @@
+<?xml-model href="tei_all.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+<teiHeader>
+  <fileDesc>
+    <titleStmt>
+      <title>BORI 470: Vetālapañcaviṃśati of Vallabhadāsa</title> <!-- required -->
+    </titleStmt>
+    <publicationStmt>
+      <distributor>Adheesh Sathaye, University of British Columbia</distributor> <!-- required -->
+    </publicationStmt>
+    <sourceDesc>
+      <msDesc>
+        <msIdentifier>
+          <placeName>
+            <settlement>Pune</settlement><!-- required -->
+            <region>Maharashtra</region>
+            <country>India</country>
+          </placeName>
+          <repository ref="https://viaf.org/viaf/144869051">Bhandarkar Oriental Research Institute</repository> <!-- required -->
+          <idno>BORI 470</idno> <!-- required -->
+        </msIdentifier>
+        <msContents>
+          <summary></summary> <!-- optional -->
+          <msItem>
+            <title ref="https://viaf.org/viaf/182013094">Vetālapañcaviṃśati</title> <!-- required -->
+            <author ref="https://viaf.org/viaf/36952200">Vallabhadāsa</author> <!-- required -->
+            <textLang mainLang="san" otherLangs="pra"><!-- @mainLang required --></textLang>
+          </msItem>
+        </msContents>
+        <physDesc>
+          <objectDesc>
+            <supportDesc material="paper">
+              <extent>
+                <measure quantity="54" unit="folios"/> <!-- required -->
+                <dimensions type="leaf" unit="cm"> <!-- optional -->
+                  <height></height>
+                  <width></width>
+                </dimensions>
+              </extent>
+              <foliation></foliation><!-- optional -->
+              <condition><!-- required -->
+                <ab>Complete.</ab>
+                <p></p><!-- Optional user input -->
+              </condition>
+            </supportDesc>
+            <layoutDesc>
+              <summary></summary> <!-- optional -->
+              <layout writtenLines="10"/> <!-- @writtenLines required -->
+            </layoutDesc>
+          </objectDesc>
+          <handDesc>
+            <summary>May contain second-hand corrections.</summary> <!-- optional -->
+            <handNote scope="sole" script="devanagari" scribe=""></handNote> <!-- @script required, @scribe optional -->
+          </handDesc>
+          <additions></additions> <!-- TODO: Work this out (optional) -->
+        </physDesc>
+        <history>
+          <origin>
+            <origPlace></origPlace> <!-- optional -->
+            <origDate calendar="VS" when-iso="1698-01-06">V.S. 1754 Pau. k. 10 soma</origDate> <!-- @when-iso optional, text required -->
+          </origin>
+          <provenance></provenance> <!-- optional -->
+        </history>
+      </msDesc>
+    </sourceDesc>
+  </fileDesc>
+</teiHeader>
+<text>
+  <body>
+
+<pb n="1r"/>
+<lb n="1"/><p><!--<frameStart n="1"/> <frameEnd/>--></p>
+
+  </body>
+</text>
+</TEI>
